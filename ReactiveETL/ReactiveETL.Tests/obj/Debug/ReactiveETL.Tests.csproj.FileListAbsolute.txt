@@ -1,0 +1,16 @@
+C:\code\csharp-vs2013\reactiveetl\ReactiveETL\ReactiveETL.Tests\bin\Debug\Files\FileReadTest.txt
+C:\code\csharp-vs2013\reactiveetl\ReactiveETL\ReactiveETL.Tests\bin\Debug\ReactiveETL.Tests.dll.config
+C:\code\csharp-vs2013\reactiveetl\ReactiveETL\ReactiveETL.Tests\bin\Debug\ReactiveETL.Tests.dll
+C:\code\csharp-vs2013\reactiveetl\ReactiveETL\ReactiveETL.Tests\bin\Debug\ReactiveETL.Tests.pdb
+C:\code\csharp-vs2013\reactiveetl\ReactiveETL\ReactiveETL.Tests\bin\Debug\FileHelpers.dll
+C:\code\csharp-vs2013\reactiveetl\ReactiveETL\ReactiveETL.Tests\bin\Debug\log4net.dll
+C:\code\csharp-vs2013\reactiveetl\ReactiveETL\ReactiveETL.Tests\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
+C:\code\csharp-vs2013\reactiveetl\ReactiveETL\ReactiveETL.Tests\bin\Debug\ReactiveETL.dll
+C:\code\csharp-vs2013\reactiveetl\ReactiveETL\ReactiveETL.Tests\bin\Debug\System.Observable.dll
+C:\code\csharp-vs2013\reactiveetl\ReactiveETL\ReactiveETL.Tests\bin\Debug\ReactiveETL.pdb
+C:\code\csharp-vs2013\reactiveetl\ReactiveETL\ReactiveETL.Tests\bin\Debug\ReactiveETL.xml
+C:\code\csharp-vs2013\reactiveetl\ReactiveETL\ReactiveETL.Tests\bin\Debug\log4net.xml
+C:\code\csharp-vs2013\reactiveetl\ReactiveETL\ReactiveETL.Tests\bin\Debug\System.Observable.xml
+C:\code\csharp-vs2013\reactiveetl\ReactiveETL\ReactiveETL.Tests\obj\Debug\ReactiveETL.Tests.csprojResolveAssemblyReference.cache
+C:\code\csharp-vs2013\reactiveetl\ReactiveETL\ReactiveETL.Tests\obj\Debug\ReactiveETL.Tests.dll
+C:\code\csharp-vs2013\reactiveetl\ReactiveETL\ReactiveETL.Tests\obj\Debug\ReactiveETL.Tests.pdb

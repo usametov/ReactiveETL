@@ -1,0 +1,2388 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ReactiveETL</name>
+    </assembly>
+    <members>
+        <member name="T:ReactiveETL.AbstractObservableOperation">
+            <summary>
+            Base class for observable operations
+            </summary>
+        </member>
+        <member name="P:ReactiveETL.AbstractObservableOperation.CountTreated">
+            <summary>
+            Number of elements treated
+            </summary>
+        </member>
+        <member name="P:ReactiveETL.AbstractObservableOperation.Completed">
+            <summary>
+            Indicate if the operation is over
+            </summary>
+        </member>
+        <member name="P:ReactiveETL.AbstractObservableOperation.Name">
+            <summary>
+            Name of the operation
+            </summary>
+        </member>
+        <member name="P:ReactiveETL.AbstractObservableOperation.DisplayName">
+            <summary>
+            Display name of the operation. Return the Name if available or GetType().Name otherwise
+            </summary>
+        </member>
+        <member name="P:ReactiveETL.AbstractObservableOperation.Observers">
+            <summary>
+            List of observers of this operation
+            </summary>
+        </member>
+        <member name="M:ReactiveETL.AbstractObservableOperation.Subscribe(System.IObserver{ReactiveETL.Row})">
+            <summary>
+            Subscribes an observer to the observable sequence.
+            </summary>
+        </member>
+        <member name="M:ReactiveETL.AbstractObservableOperation.Trigger">
+            <summary>
+            Trigger the operation. Trigger method calls are bubbled up through the pipeline
+            </summary>
+        </member>
+        <member name="M:ReactiveETL.AbstractObservableOperation.Dispose">
+            <summary>
+            Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+            </summary>
+            <filterpriority>2</filterpriority>
+        </member>
+        <member name="T:ReactiveETL.AbstractOperation">
+            <summary>
+            Base class for operations
+            </summary>
+        </member>
+        <member name="P:ReactiveETL.AbstractOperation.Observed">
+            <summary>
+            List of operation observed by this operation
+            </summary>
+        </member>
+        <member name="M:ReactiveETL.AbstractOperation.OnNext(ReactiveETL.Row)">
+            <summary>
+            Notifies the observer of a new value in the sequence. It's best to override Dispatch or TreatRow than this method because this method contains pipelining logic.
+            </summary>
+        </member>
+        <member name="M:ReactiveETL.AbstractOperation.Dispatch(ReactiveETL.Row)">
+            <summary>
+            Method called by OnNext to dispatch the new value to the observers of the operation
+            </summary>
+            <param name="value">value to dispatch</param>
+        </member>
+        <member name="M:ReactiveETL.AbstractOperation.TreatRow(ReactiveETL.Row)">
+            <summary>
+            Method called by OnNext > Dispatch to process the notified value. 
+            This method just return the value and could be overriden in subclasses.
+            Return null if you want to skip the processed row
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ReactiveETL.AbstractOperation.OnError(System.Exception)">
+            <summary>
+            Notifies the observer that an exception has occurred.
+            </summary>
+        </member>
+        <member name="M:ReactiveETL.AbstractOperation.OnCompleted">
+            <summary>
+            Notifies the observers of the end of the sequence.
+            </summary>
+        </member>
+        <member name="M:ReactiveETL.AbstractOperation.Dispose">
+            <summary>
+            Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+            </summary>
+            <filterpriority>2</filterpriority>
+        </member>
+        <member name="M:ReactiveETL.AbstractOperation.Trigger">
+            <summary>
+            Trigger the operation. Trigger method calls are bubbled up through the pipeline
+            </summary>
+        </member>
+        <member name="T:ReactiveETL.Activators.FileWriteActivator`1">
+            <summary>
+            Activator for file writing
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="P:ReactiveETL.Activators.FileWriteActivator`1.Writer">
+            <summary>
+            Text writer to the file
+            </summary>
+        </member>
+        <member name="P:ReactiveETL.Activators.FileWriteActivator`1.FileName">
+            <summary>
+            Name of the file to write
+            </summary>
+        </member>
+        <member name="P:ReactiveETL.Activators.FileWriteActivator`1.Stream">
+            <summary>
+            Stream to the file to write
+            </summary>
+        </member>
+        <member name="P:ReactiveETL.Activators.FileWriteActivator`1.Engine">
+            <summary>
+            File engine in use
+            </summary>
+        </member>
+        <member name="P:ReactiveETL.Activators.FileWriteActivator`1.PrepareFluentFile">
+            <summary>
+            Callback method to initialize the engine
+            </summary>
+        </member>
+        <member name="M:ReactiveETL.Activators.FileWriteActivator`1.InitializeEngine">
+            <summary>
+            Initialize the file engine
+            </summary>
+            <returns>initialized engine</returns>
+        </member>
+        <member name="M:ReactiveETL.Activators.FileWriteActivator`1.Release">
+            <summary>
+            Release the file engine and all necessary ressources
+            </summary>
+        </member>
+        <member name="T:ReactiveETL.Activators.JoinActivator`1">
+            <summary>
+            Activator for join operations
+            </summary>
+            <typeparam name="T">Type of data in the join</typeparam>
+        </member>
+        <member name="P:ReactiveETL.Activators.JoinActivator`1.List">
+            <summary>
+            List of data to join
+            </summary>
+        </member>
+        <member name="P:ReactiveETL.Activators.JoinActivator`1.CheckMatch">
+            <summary>
+            Callback method for checking if the element is matching
+            </summary>
+        </member>
+        <member name="P:ReactiveETL.Activators.JoinActivator`1.ProcessRow">
+            <summary>
+            Callback method for processing the row with found element
+            </summary>
+        </member>
+        <member name="M:ReactiveETL.Activators.JoinActivator`1.GetMatches(ReactiveETL.Row)">
+            <summary>
+            Get the list of elements that matches the condition
+            </summary>
+            <param name="rowVal">the row for the left part of the join</param>
+            <returns>an enumeration of right join elements matching condition</returns>
+        </member>
+        <member name="M:ReactiveETL.Activators.JoinActivator`1.GetEnumerator">
+            <summary>
+            Returns an enumerator that iterates through the collection.
+            </summary>
+            <returns>
+            A <see cref="T:System.Collections.Generic.IEnumerator`1"/> that can be used to iterate through the collection.
+            </returns>
+            <filterpriority>1</filterpriority>
+        </member>
+        <member name="M:ReactiveETL.Activators.JoinActivator`1.System#Collections#IEnumerable#GetEnumerator">
+            <summary>
+            Returns an enumerator that iterates through a collection.
+            </summary>
+            <returns>
+            An <see cref="T:System.Collections.IEnumerator"/> object that can be used to iterate through the collection.
+            </returns>
+            <filterpriority>2</filterpriority>
+        </member>
+        <member name="T:ReactiveETL.Activators.OperationJoinActivator">
+            <summary>
+            Join activator for an operation. The first time the activator is iterated will trigger the operation pipeline.
+            </summary>
+        </member>
+        <member name="P:ReactiveETL.Activators.OperationJoinActivator.Operation">
+            <summary>
+            Joined operation
+            </summary>
+        </member>
+        <member name="M:ReactiveETL.Activators.OperationJoinActivator.GetEnumerator">
+            <summary>
+            Returns an enumerator that iterates through the collection.
+            </summary>
+            <returns>
+            A <see cref="T:System.Collections.Generic.IEnumerator`1"/> that can be used to iterate through the collection.
+            </returns>
+            <filterpriority>1</filterpriority>
+        </member>
+        <member name="M:ReactiveETL.Activators.OperationJoinActivator.System#Collections#IEnumerable#GetEnumerator">
+            <summary>
+            Returns an enumerator that iterates through a collection.
+            </summary>
+            <returns>
+            An <see cref="T:System.Collections.IEnumerator"/> object that can be used to iterate through the collection.
+            </returns>
+            <filterpriority>2</filterpriority>
+        </member>
+        <member name="T:ReactiveETL.Activators.CommandActivator">
+            <summary>
+            Class to manage command parameters and execution
+            </summary>
+        </member>
+        <member name="P:ReactiveETL.Activators.CommandActivator.ConnStringName">
+            <summary>
+            Name of a connection string defined in the application configuration file
+            </summary>
+        </member>
+        <member name="P:ReactiveETL.Activators.CommandActivator.CommandText">
+            <summary>
+            Text of the command
+            </summary>
+        </member>
+        <member name="P:ReactiveETL.Activators.CommandActivator.UseTransaction">
+            <summary>
+            Indicate if the process should use a transaction
+            </summary>
+        </member>
+        <member name="P:ReactiveETL.Activators.CommandActivator.FailOnError">
+            <summary>
+            Indicate if operation fail on error (default is true)
+            </summary>
+        </member>
+        <member name="P:ReactiveETL.Activators.CommandActivator.IsQuery">
+            <summary>
+            Indicate if the command is a query
+            </summary>
+        </member>
+        <member name="P:ReactiveETL.Activators.CommandActivator.Connection">
+            <summary>
+            Database connection
+            </summary>
+        </member>
+        <member name="P:ReactiveETL.Activators.CommandActivator.Transaction">
+            <summary>
+            Database connection
+            </summary>
+        </member>
+        <member name="P:ReactiveETL.Activators.CommandActivator.Prepare">
+            <summary>
+            Callback method for preparing the command
+            </summary>
+        </member>
+        <member name="M:ReactiveETL.Activators.CommandActivator.CreateRowFromReader(System.Data.IDataReader)">
+            <summary>
+            Create a row from the IDataReader
+            </summary>
+            <param name="reader">IDataReader to convert</param>
+            <returns>row initialized with IDataReader values</returns>
+        </member>
+        <member name="M:ReactiveETL.Activators.CommandActivator.UseCommand(System.Action{System.Data.IDbCommand})">
+            <summary>
+            Provide a command and take care of cleaning up
+            </summary>
+            <param name="usecmd"></param>
+        </member>
+        <member name="M:ReactiveETL.Activators.CommandActivator.Rollback">
+            <summary>
+            Release the plumbing (connection, transaction, etc)
+            </summary>
+        </member>
+        <member name="M:ReactiveETL.Activators.CommandActivator.Release">
+            <summary>
+            Release the plumbing (connection, transaction, etc)
+            </summary>
+        </member>
+        <member name="T:ReactiveETL.Constants">
+            <summary>
+            Constants used by reactive etl
+            </summary>
+        </member>
+        <member name="F:ReactiveETL.Constants.GroupListName">
+            <summary>
+            Name of the column containing the list of child rows when using GroupBy Operation
+            </summary>
+        </member>
+        <member name="F:ReactiveETL.Constants.GroupParentName">
+            <summary>
+            Name of the column containing the parent group when using DispatchGroup
+            </summary>
+        </member>
+        <member name="T:ReactiveETL.EtlFullResult">
+            <summary>
+            Result of a pipeline
+            </summary>
+        </member>
+        <member name="P:ReactiveETL.EtlFullResult.Data">
+            <summary>
+            Elements recorded by the operation
+            </summary>
+        </member>
+        <member name="P:ReactiveETL.EtlFullResult.Count">
+            <summary>
+            Elements recorded by the operation
+            </summary>
+        </member>
+        <member name="M:ReactiveETL.EtlFullResult.GetEnumerator">
+            <summary>
+            Returns an enumerator that iterates through the collection.
+            </summary>
+            <returns>
+            A <see cref="T:System.Collections.Generic.IEnumerator`1"/> that can be used to iterate through the collection.
+            </returns>
+            <filterpriority>1</filterpriority>
+        </member>
+        <member name="M:ReactiveETL.EtlFullResult.System#Collections#IEnumerable#GetEnumerator">
+            <summary>
+            Returns an enumerator that iterates through a collection.
+            </summary>
+            <returns>
+            An <see cref="T:System.Collections.IEnumerator"/> object that can be used to iterate through the collection.
+            </returns>
+            <filterpriority>2</filterpriority>
+        </member>
+        <member name="T:ReactiveETL.EtlResult">
+            <summary>
+            Encapsulation of information for the result of a pipeline
+            </summary>
+        </member>
+        <member name="P:ReactiveETL.EtlResult.Completed">
+            <summary>
+            Indicate if the pipeline process is over
+            </summary>
+        </member>
+        <member name="P:ReactiveETL.EtlResult.Thread">
+            <summary>
+            Thread in witch the pipeline is running, null value means current thread
+            </summary>
+        </member>
+        <member name="P:ReactiveETL.EtlResult.CountExceptions">
+            <summary>
+            Elements recorded by the operation
+            </summary>
+        </member>
+        <member name="P:ReactiveETL.EtlResult.Exceptions">
+            <summary>
+            Exceptions recorded by the operation
+            </summary>
+        </member>
+        <member name="P:ReactiveETL.EtlResult.Duration">
+            <summary>
+            Duration of the process
+            </summary>
+        </member>
+        <member name="T:ReactiveETL.Exceptions.EtlResultException">
+            <summary>
+            Result of ETL operation error
+            </summary>
+        </member>
+        <member name="P:ReactiveETL.Exceptions.EtlResultException.EtlResult">
+            <summary>
+            Operation Result
+            </summary>
+        </member>
+        <member name="M:ReactiveETL.Exceptions.EtlResultException.From(ReactiveETL.EtlResult)">
+            <summary>
+            Throw exception from result
+            </summary>
+            <param name="result"></param>
+        </member>
+        <member name="M:ReactiveETL.Exceptions.EtlResultException.#ctor(ReactiveETL.EtlResult)">
+            <summary>
+            Initializes a new instance of the <see cref="T:ReactiveETL.Exceptions.ReactiveETLException"/> class.
+            </summary>
+            <param name="result">The operation result.</param>
+        </member>
+        <member name="M:ReactiveETL.Exceptions.EtlResultException.#ctor(ReactiveETL.EtlResult,System.String,System.Exception)">
+            <summary>
+            Initializes a new instance of the <see cref="T:ReactiveETL.Exceptions.ReactiveETLException"/> class.
+            </summary>
+            <param name="result">The operation result.</param>
+            <param name="message">The message.</param>
+            <param name="inner">The inner.</param>
+        </member>
+        <member name="M:ReactiveETL.Exceptions.EtlResultException.#ctor(ReactiveETL.EtlResult,System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Initializes a new instance of the <see cref="T:ReactiveETL.Exceptions.ReactiveETLException"/> class.
+            </summary>
+            <param name="result">The operation result.</param>
+            <param name="info">The <see cref="T:System.Runtime.Serialization.SerializationInfo"/> that holds the serialized object data about the exception being thrown.</param>
+            <param name="context">The <see cref="T:System.Runtime.Serialization.StreamingContext"/> that contains contextual information about the source or destination.</param>
+            <exception cref="T:System.ArgumentNullException">The <paramref name="info"/> parameter is null. </exception>
+            <exception cref="T:System.Runtime.Serialization.SerializationException">The class name is null or <see cref="P:System.Exception.HResult"/> is zero (0). </exception>
+        </member>
+        <member name="M:ReactiveETL.Exceptions.EtlResultException.ToString">
+            <summary>
+            Creates and returns a string representation of the current exception.
+            </summary>
+            <returns>
+            A string representation of the current exception.
+            </returns>
+            <filterpriority>1</filterpriority><PermissionSet><IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" PathDiscovery="*AllFiles*"/></PermissionSet>
+        </member>
+        <member name="T:ReactiveETL.Exceptions.MissingKeyException">
+            <summary>
+            Thrown when a an attempt to retrieve that a value by non existing key and
+            the quacking dictionary is set to throw
+            </summary>
+        </member>
+        <member name="M:ReactiveETL.Exceptions.MissingKeyException.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:ReactiveETL.Exceptions.MissingKeyException"/> class.
+            </summary>
+            <param name="message">The message.</param>
+        </member>
+        <member name="M:ReactiveETL.Exceptions.MissingKeyException.#ctor(System.String,System.Exception)">
+            <summary>
+            Initializes a new instance of the <see cref="T:ReactiveETL.Exceptions.MissingKeyException"/> class.
+            </summary>
+            <param name="message">The message.</param>
+            <param name="inner">The inner.</param>
+        </member>
+        <member name="M:ReactiveETL.Exceptions.MissingKeyException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Initializes a new instance of the <see cref="T:ReactiveETL.Exceptions.MissingKeyException"/> class.
+            </summary>
+            <param name="info">The <see cref="T:System.Runtime.Serialization.SerializationInfo"/> that holds the serialized object data about the exception being thrown.</param>
+            <param name="context">The <see cref="T:System.Runtime.Serialization.StreamingContext"/> that contains contextual information about the source or destination.</param>
+            <exception cref="T:System.ArgumentNullException">The <paramref name="info"/> parameter is null. </exception>
+            <exception cref="T:System.Runtime.Serialization.SerializationException">The class name is null or <see cref="P:System.Exception.HResult"/> is zero (0). </exception>
+        </member>
+        <member name="T:ReactiveETL.Exceptions.ParameterCountException">
+            <summary>
+            Thrown when an access to a quacking dictionary is made with more than a single
+            parameter
+            </summary>
+        </member>
+        <member name="M:ReactiveETL.Exceptions.ParameterCountException.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:ReactiveETL.Exceptions.ParameterCountException"/> class.
+            </summary>
+        </member>
+        <member name="M:ReactiveETL.Exceptions.ParameterCountException.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:ReactiveETL.Exceptions.ParameterCountException"/> class.
+            </summary>
+            <param name="message">The message.</param>
+        </member>
+        <member name="M:ReactiveETL.Exceptions.ParameterCountException.#ctor(System.String,System.Exception)">
+            <summary>
+            Initializes a new instance of the <see cref="T:ReactiveETL.Exceptions.ParameterCountException"/> class.
+            </summary>
+            <param name="message">The message.</param>
+            <param name="inner">The inner.</param>
+        </member>
+        <member name="M:ReactiveETL.Exceptions.ParameterCountException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Initializes a new instance of the <see cref="T:ReactiveETL.Exceptions.ParameterCountException"/> class.
+            </summary>
+            <param name="info">The <see cref="T:System.Runtime.Serialization.SerializationInfo"/> that holds the serialized object data about the exception being thrown.</param>
+            <param name="context">The <see cref="T:System.Runtime.Serialization.StreamingContext"/> that contains contextual information about the source or destination.</param>
+            <exception cref="T:System.ArgumentNullException">The <paramref name="info"/> parameter is null. </exception>
+            <exception cref="T:System.Runtime.Serialization.SerializationException">The class name is null or <see cref="P:System.Exception.HResult"/> is zero (0). </exception>
+        </member>
+        <member name="T:ReactiveETL.Exceptions.ReactiveETLException">
+            <summary>
+            An exception that was caught during exceuting the code.
+            </summary>
+        </member>
+        <member name="M:ReactiveETL.Exceptions.ReactiveETLException.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:ReactiveETL.Exceptions.ReactiveETLException"/> class.
+            </summary>        
+        </member>
+        <member name="M:ReactiveETL.Exceptions.ReactiveETLException.#ctor(System.String,System.Exception)">
+            <summary>
+            Initializes a new instance of the <see cref="T:ReactiveETL.Exceptions.ReactiveETLException"/> class.
+            </summary>
+            <param name="message">The message.</param>
+            <param name="inner">The inner.</param>
+        </member>
+        <member name="M:ReactiveETL.Exceptions.ReactiveETLException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Initializes a new instance of the <see cref="T:ReactiveETL.Exceptions.ReactiveETLException"/> class.
+            </summary>
+            <param name="info">The <see cref="T:System.Runtime.Serialization.SerializationInfo"/> that holds the serialized object data about the exception being thrown.</param>
+            <param name="context">The <see cref="T:System.Runtime.Serialization.StreamingContext"/> that contains contextual information about the source or destination.</param>
+            <exception cref="T:System.ArgumentNullException">The <paramref name="info"/> parameter is null. </exception>
+            <exception cref="T:System.Runtime.Serialization.SerializationException">The class name is null or <see cref="P:System.Exception.HResult"/> is zero (0). </exception>
+        </member>
+        <member name="T:ReactiveETL.Files.FileEngine">
+            <summary>
+            Adapter class to facilitate the nicer syntax
+            </summary>
+        </member>
+        <member name="M:ReactiveETL.Files.FileEngine.#ctor(FileHelpers.FileHelperAsyncEngine)">
+            <summary>
+            Initializes a new instance of the <see cref="T:ReactiveETL.Files.FileEngine"/> class.
+            </summary>
+            <param name="engine">The engine.</param>
+        </member>
+        <member name="M:ReactiveETL.Files.FileEngine.Write(System.Object)">
+            <summary>
+            Writes the specified object ot the file
+            </summary>
+            <param name="t">The t.</param>
+        </member>
+        <member name="M:ReactiveETL.Files.FileEngine.OnError(FileHelpers.ErrorMode)">
+            <summary>
+            Set the behavior on error
+            </summary>
+            <param name="errorMode">The error mode.</param>
+        </member>
+        <member name="P:ReactiveETL.Files.FileEngine.HasErrors">
+            <summary>
+            Gets a value indicating whether this instance has errors.
+            </summary>
+        </member>
+        <member name="M:ReactiveETL.Files.FileEngine.OutputErrors(System.String)">
+            <summary>
+            Outputs the errors to the specified file
+            </summary>
+            <param name="file">The file.</param>
+        </member>
+        <member name="M:ReactiveETL.Files.FileEngine.Dispose">
+            <summary>
+            Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+            </summary>
+        </member>
+        <member name="M:ReactiveETL.Files.FileEngine.GetEnumerator">
+            <summary>
+            Returns an enumerator that iterates through a collection.
+            </summary>
+            <returns>
+            An <see cref="T:System.Collections.IEnumerator"/> object that can be used to iterate through the collection.
+            </returns>
+        </member>
+        <member name="T:ReactiveETL.Files.FluentFile">
+            <summary>
+            Gives a fluent interface syntax on top of the <see cref="T:FileHelpers.FileHelperEngine"/>
+            </summary>
+        </member>
+        <member name="M:ReactiveETL.Files.FluentFile.For``1">
+            <summary>
+            Get a new fluent file instance for <typeparam name="T"></typeparam>
+            </summary>
+        </member>
+        <member name="M:ReactiveETL.Files.FluentFile.#ctor(System.Type)">
+            <summary>
+            Initializes a new instance of the <see cref="T:ReactiveETL.Files.FluentFile"/> class.
+            </summary>
+            <param name="type">The type.</param>
+        </member>
+        <member name="M:ReactiveETL.Files.FluentFile.From(System.String)">
+            <summary>
+            Specify which file to start reading from
+            </summary>
+            <param name="filename">The filename.</param>
+        </member>
+        <member name="M:ReactiveETL.Files.FluentFile.From(System.IO.TextReader)">
+            <summary>
+            Specify which file to start reading from
+            </summary>
+            <param name="reader">The text reader.</param>
+        </member>
+        <member name="M:ReactiveETL.Files.FluentFile.To(System.String)">
+            <summary>
+            Specify which file to start writing to
+            </summary>
+            <param name="filename">The filename.</param>
+            <remarks>
+            This will overwrite the file, use <see cref="M:ReactiveETL.Files.FluentFile.AppendTo(System.String)"/> if you want
+            to append.
+            </remarks>
+        </member>
+        <member name="M:ReactiveETL.Files.FluentFile.To(System.IO.TextWriter)">
+            <summary>
+            Specify which file to start writing to
+            </summary>
+            <param name="writer">The stream writer.</param>
+            <remarks>
+            This will overwrite the file, use <see cref="M:ReactiveETL.Files.FluentFile.AppendTo(System.String)"/> if you want
+            to append.
+            </remarks>
+        </member>
+        <member name="M:ReactiveETL.Files.FluentFile.AppendTo(System.String)">
+            <summary>
+            Specify which file to start appending to
+            </summary>
+            <param name="filename">The filename.</param>
+            <returns></returns>
+        </member>
+        <member name="P:ReactiveETL.Files.FluentFile.Options">
+            <summary>
+            Gets or sets the options.
+            </summary>
+            <value>The options.</value>
+        </member>
+        <member name="P:ReactiveETL.Files.FluentFile.FooterText">
+            <summary>
+            Gets or sets the footer text.
+            </summary>
+            <value>The footer text.</value>
+        </member>
+        <member name="P:ReactiveETL.Files.FluentFile.HeaderText">
+            <summary>
+            Gets or sets the header text.
+            </summary>
+            <value>The header text.</value>
+        </member>
+        <member name="P:ReactiveETL.Files.FluentFile.Encoding">
+            <summary>
+            Gets or sets the encoding.
+            </summary>
+            <value>The encoding.</value>
+        </member>
+        <member name="T:ReactiveETL.DbExtensions">
+            <summary>
+            Extension methods for database operations
+            </summary>
+        </member>
+        <member name="M:ReactiveETL.DbExtensions.DbCommand(ReactiveETL.IObservableOperation,ReactiveETL.Activators.CommandActivator)">
+            <summary>
+            Apply a command operation
+            </summary>
+            <param name="observed">observed operation</param>
+            <param name="activator">command parameters</param>
+            <returns>command operation</returns>
+        </member>
+        <member name="M:ReactiveETL.DbExtensions.DbCommand(ReactiveETL.IObservableOperation,System.Action{ReactiveETL.Activators.CommandActivator})">
+            <summary>
+            Apply a command operation
+            </summary>
+            <param name="observed">observed operation</param>
+            <param name="act">callback on command activator</param>
+            <returns>command operation</returns>
+        </member>
+        <member name="M:ReactiveETL.DbExtensions.DbCommand(ReactiveETL.IObservableOperation,System.String,System.String)">
+            <summary>
+            Apply a command operation
+            </summary>
+            <param name="observed">observed operation</param>
+            <param name="connStr">Name of a connection string defined in the application configuration file</param>
+            <param name="CommandText">text of the command</param>
+            <returns>command operation</returns>
+        </member>
+        <member name="M:ReactiveETL.DbExtensions.DbCommand(ReactiveETL.IObservableOperation,System.Data.IDbConnection,System.String)">
+            <summary>
+            Apply a command operation
+            </summary>
+            <param name="observed">observed operation</param>
+            <param name="connection">Database connection</param>
+            <param name="CommandText">text of the command</param>
+            <returns>command operation</returns>
+        </member>
+        <member name="M:ReactiveETL.DbExtensions.DbCommand(ReactiveETL.IObservableOperation,System.String,System.Action{System.Data.IDbCommand,ReactiveETL.Row})">
+            <summary>
+            Apply a command operation
+            </summary>
+            <param name="observed">observed operation</param>
+            <param name="connStr">name of a connection string defined in the application configuration file</param>
+            <param name="prepare">callback method to prepare the command</param>
+            <returns>command operation</returns>
+        </member>
+        <member name="M:ReactiveETL.DbExtensions.DbCommand(ReactiveETL.IObservableOperation,System.Data.IDbConnection,System.Action{System.Data.IDbCommand,ReactiveETL.Row})">
+            <summary>
+            Apply a command operation
+            </summary>
+            <param name="observed">observed operation</param>
+            <param name="connection">Database connection</param>
+            <param name="prepare">callback method to prepare the command</param>
+            <returns>command operation</returns>
+        </member>
+        <member name="M:ReactiveETL.DbExtensions.DbCommand(ReactiveETL.IObservableOperation,System.String,System.String,System.Action{System.Data.IDbCommand,ReactiveETL.Row})">
+            <summary>
+            Apply a command operation
+            </summary>
+            <param name="observed">observed operation</param>
+            <param name="connStr">Name of a connection string defined in the application configuration file</param>
+            <param name="CommandText">text of the command</param>
+            <param name="prepare">callback method to prepare the command</param>
+            <returns>command operation</returns>
+        </member>
+        <member name="M:ReactiveETL.DbExtensions.DbCommand(ReactiveETL.IObservableOperation,System.Data.IDbConnection,System.String,System.Action{System.Data.IDbCommand,ReactiveETL.Row})">
+            <summary>
+            Apply a command operation
+            </summary>
+            <param name="observed">observed operation</param>
+            <param name="connection">Database connection</param>
+            <param name="CommandText">text of the command</param>
+            <param name="prepare">callback method to prepare the command</param>
+            <returns>command operation</returns>
+        </member>
+        <member name="M:ReactiveETL.DbExtensions.DbCommand(ReactiveETL.IObservableOperation,System.Data.IDbConnection,System.String,System.Boolean,System.Action{System.Data.IDbCommand,ReactiveETL.Row})">
+            <summary>
+            Apply a command operation
+            </summary>
+            <param name="observed">observed operation</param>
+            <param name="connection">Database connection</param>
+            <param name="CommandText">text of the command</param>
+            <param name="isQuery">indicate if the command is a query</param>
+            <param name="prepare">callback method to prepare the command</param>
+            <returns>command operation</returns>
+        </member>
+        <member name="M:ReactiveETL.DbExtensions.DbCommand(ReactiveETL.IObservableOperation,System.String,System.String,System.Boolean,System.Action{System.Data.IDbCommand,ReactiveETL.Row})">
+            <summary>
+            Apply a command operation
+            </summary>
+            <param name="observed">observed operation</param>
+            <param name="connStr">Name of a connection string defined in the application configuration file</param>
+            <param name="CommandText">text of the command</param>
+            <param name="isQuery">indicate if the command is a query</param>
+            <param name="prepare">callback method to prepare the command</param>
+            <returns>command operation</returns>
+        </member>
+        <member name="T:ReactiveETL.FileExtensions">
+            <summary>
+            Extension Methods for files
+            </summary>
+        </member>
+        <member name="M:ReactiveETL.FileExtensions.WriteFile``1(ReactiveETL.IObservableOperation,System.String)">
+            <summary>
+            Write the result to a file
+            </summary>
+            <typeparam name="T">The poco type used to define file format</typeparam>
+            <param name="observed">observed operation</param>
+            <param name="filename">full path to the file</param>
+            <returns>file write operation</returns>
+        </member>
+        <member name="M:ReactiveETL.FileExtensions.WriteFile``1(ReactiveETL.IObservableOperation,System.String,System.Action{ReactiveETL.Files.FluentFile})">
+            <summary>
+            Write the result to a file
+            </summary>
+            <typeparam name="T">The poco type used to define file format</typeparam>
+            <param name="observed">observed operation</param>
+            <param name="filename">full path to the file</param>
+            <param name="prepare">Callback to prepare the file engine</param>
+            <returns>file write operation</returns>
+        </member>
+        <member name="M:ReactiveETL.FileExtensions.WriteFile``1(ReactiveETL.IObservableOperation,System.IO.Stream)">
+            <summary>
+            Write the result to a stream
+            </summary>
+            <typeparam name="T">The poco type used to define file format</typeparam>
+            <param name="observed">observed operation</param>
+            <param name="strm">stream to the file</param>
+            <returns>file write operation</returns>
+        </member>
+        <member name="M:ReactiveETL.FileExtensions.WriteFile``1(ReactiveETL.IObservableOperation,System.IO.Stream,System.Action{ReactiveETL.Files.FluentFile})">
+            <summary>
+            Write the result to a stream
+            </summary>
+            <typeparam name="T">The poco type used to define file format</typeparam>
+            <param name="observed">observed operation</param>
+            <param name="strm">stream to the file</param>
+            <param name="prepare">Callback to prepare the file engine</param>
+            <returns>file write operation</returns>
+        </member>
+        <member name="M:ReactiveETL.FileExtensions.WriteFile``1(ReactiveETL.IObservableOperation,System.IO.TextWriter)">
+            <summary>
+            Write the result to a stream
+            </summary>
+            <typeparam name="T">The poco type used to define file format</typeparam>
+            <param name="observed">observed operation</param>
+            <param name="writer">stream to the file</param>
+            <returns>file write operation</returns>
+        </member>
+        <member name="M:ReactiveETL.FileExtensions.WriteFile``1(ReactiveETL.IObservableOperation,System.IO.TextWriter,System.Action{ReactiveETL.Files.FluentFile})">
+            <summary>
+            Write the result to a stream
+            </summary>
+            <typeparam name="T">The poco type used to define file format</typeparam>
+            <param name="observed">observed operation</param>
+            <param name="writer">stream to the file</param>
+            <param name="prepare">Callback to prepare the file engine</param>
+            <returns>file write operation</returns>
+        </member>
+        <member name="T:ReactiveETL.JoinExtensions">
+            <summary>
+            Extension methods for join operations
+            </summary>
+        </member>
+        <member name="M:ReactiveETL.JoinExtensions.Join``1(ReactiveETL.IObservableOperation,ReactiveETL.Activators.JoinActivator{``0})">
+            <summary>
+            Join an enumeration of elements to the pipeline
+            </summary>
+            <typeparam name="T">type of elements to join</typeparam>
+            <param name="observed">observed operation</param>
+            <param name="activator">join parameters</param>
+            <returns>resulting operation</returns>
+        </member>
+        <member name="M:ReactiveETL.JoinExtensions.Join``1(ReactiveETL.IObservableOperation,System.Collections.Generic.IEnumerable{``0},System.Func{ReactiveETL.Row,``0,System.Boolean},System.Func{ReactiveETL.Row,``0,ReactiveETL.Row})">
+            <summary>
+            Join an enumeration of elements to the pipeline
+            </summary>
+            <typeparam name="T">type of elements to join</typeparam>
+            <param name="observed">observed operation</param>
+            <param name="list">enumeration of elements to join</param>
+            <param name="checkMatch">callback method to check if an element is matching the row</param>
+            <param name="processrow">callback method called to process the row</param>
+            <returns>resulting operation</returns>
+        </member>
+        <member name="M:ReactiveETL.JoinExtensions.Join(ReactiveETL.IObservableOperation,ReactiveETL.IObservableOperation,System.Func{ReactiveETL.Row,ReactiveETL.Row,System.Boolean},System.Func{ReactiveETL.Row,ReactiveETL.Row,ReactiveETL.Row})">
+            <summary>
+            Join an enumeration of elements to the pipeline
+            </summary>
+            <param name="observed">observed operation</param>
+            <param name="rightOp">operation to join</param>
+            <param name="checkMatch">callback method to check if an element is matching the row</param>
+            <param name="processrow">callback method called to process the row</param>
+            <returns>resulting operation</returns>
+        </member>
+        <member name="M:ReactiveETL.JoinExtensions.FullJoin(ReactiveETL.IObservableOperation,ReactiveETL.IObservableOperation,System.String,System.Func{ReactiveETL.Row,ReactiveETL.Row,ReactiveETL.Row})">
+            <summary>
+            Join an enumeration of elements to the pipeline
+            </summary>
+            <param name="observed">observed operation</param>
+            <param name="rightOp">operation to join</param>
+            <param name="field">Name of the field used for the join</param>
+            <param name="processrow">callback method called to process the row</param>
+            <returns>resulting operation</returns>
+        </member>
+        <member name="M:ReactiveETL.JoinExtensions.FullJoin(ReactiveETL.IObservableOperation,System.Collections.Generic.IEnumerable{ReactiveETL.Row},System.String,System.Func{ReactiveETL.Row,ReactiveETL.Row,ReactiveETL.Row})">
+            <summary>
+            Join an enumeration of elements to the pipeline
+            </summary>
+            <param name="observed">observed operation</param>
+            <param name="rightOp">operation to join</param>
+            <param name="field">Name of the field used for the join</param>
+            <param name="processrow">callback method called to process the row</param>
+            <returns>resulting operation</returns>
+        </member>
+        <member name="M:ReactiveETL.JoinExtensions.FullJoin(ReactiveETL.IObservableOperation,System.Collections.Generic.IEnumerable{ReactiveETL.Row},System.String,System.String,System.Func{ReactiveETL.Row,ReactiveETL.Row,ReactiveETL.Row})">
+            <summary>
+            Join an enumeration of elements to the pipeline
+            </summary>
+            <param name="observed">observed operation</param>
+            <param name="rightOp">operation to join</param>
+            <param name="leftField">Name of the field used for the join</param>
+            <param name="rightField">Name of the field used for the join</param>
+            <param name="processrow">callback method called to process the row</param>
+            <returns>resulting operation</returns>
+        </member>
+        <member name="M:ReactiveETL.JoinExtensions.FullJoin(ReactiveETL.IObservableOperation,ReactiveETL.IObservableOperation,System.String,System.String,System.Func{ReactiveETL.Row,ReactiveETL.Row,ReactiveETL.Row})">
+            <summary>
+            Join an enumeration of elements to the pipeline
+            </summary>
+            <param name="observed">observed operation</param>
+            <param name="rightOp">operation to join</param>
+            <param name="leftField">Name of the field used for the join</param>
+            <param name="rightField">Name of the field used for the join</param>
+            <param name="processrow">callback method called to process the row</param>
+            <returns>resulting operation</returns>
+        </member>
+        <member name="M:ReactiveETL.JoinExtensions.FullJoin(ReactiveETL.IObservableOperation,ReactiveETL.IObservableOperation,System.String)">
+            <summary>
+            Join an enumeration of elements to the pipeline
+            </summary>
+            <param name="observed">observed operation</param>
+            <param name="rightOp">operation to join</param>
+            <param name="field">Name of the field used for the join</param>
+            <returns>resulting operation</returns>
+        </member>
+        <member name="M:ReactiveETL.JoinExtensions.FullJoin(ReactiveETL.IObservableOperation,System.Collections.Generic.IEnumerable{ReactiveETL.Row},System.String)">
+            <summary>
+            Join an enumeration of elements to the pipeline
+            </summary>
+            <param name="observed">observed operation</param>
+            <param name="rightOp">operation to join</param>
+            <param name="field">Name of the field used for the join</param>
+            <returns>resulting operation</returns>
+        </member>
+        <member name="M:ReactiveETL.JoinExtensions.FullJoin(ReactiveETL.IObservableOperation,ReactiveETL.IObservableOperation,System.String,System.String)">
+            <summary>
+            Join an enumeration of elements to the pipeline
+            </summary>
+            <param name="observed">observed operation</param>
+            <param name="rightOp">operation to join</param>
+            <param name="leftField">Name of the field used for the join</param>
+            <param name="rightField">Name of the field used for the join</param>
+            <returns>resulting operation</returns>
+        </member>
+        <member name="M:ReactiveETL.JoinExtensions.FullJoin(ReactiveETL.IObservableOperation,System.Collections.Generic.IEnumerable{ReactiveETL.Row},System.String,System.String)">
+            <summary>
+            Join an enumeration of elements to the pipeline
+            </summary>
+            <param name="observed">observed operation</param>
+            <param name="rightOp">operation to join</param>
+            <param name="leftField">Name of the field used for the join</param>
+            <param name="rightField">Name of the field used for the join</param>
+            <returns>resulting operation</returns>
+        </member>
+        <member name="M:ReactiveETL.JoinExtensions.InnerJoin(ReactiveETL.IObservableOperation,ReactiveETL.IObservableOperation,System.String,System.Func{ReactiveETL.Row,ReactiveETL.Row,ReactiveETL.Row})">
+            <summary>
+            Join an enumeration of elements to the pipeline
+            </summary>
+            <param name="observed">observed operation</param>
+            <param name="rightOp">operation to join</param>
+            <param name="field">Name of the field used for the join</param>
+            <param name="processrow">callback method called to process the row</param>
+            <returns>resulting operation</returns>
+        </member>
+        <member name="M:ReactiveETL.JoinExtensions.InnerJoin(ReactiveETL.IObservableOperation,System.Collections.Generic.IEnumerable{ReactiveETL.Row},System.String,System.Func{ReactiveETL.Row,ReactiveETL.Row,ReactiveETL.Row})">
+            <summary>
+            Join an enumeration of elements to the pipeline
+            </summary>
+            <param name="observed">observed operation</param>
+            <param name="rightOp">operation to join</param>
+            <param name="field">Name of the field used for the join</param>
+            <param name="processrow">callback method called to process the row</param>
+            <returns>resulting operation</returns>
+        </member>
+        <member name="M:ReactiveETL.JoinExtensions.InnerJoin(ReactiveETL.IObservableOperation,ReactiveETL.IObservableOperation,System.String,System.String,System.Func{ReactiveETL.Row,ReactiveETL.Row,ReactiveETL.Row})">
+            <summary>
+            Join an enumeration of elements to the pipeline
+            </summary>
+            <param name="observed">observed operation</param>
+            <param name="rightOp">operation to join</param>
+            <param name="leftField">Name of the field used for the join</param>
+            <param name="rightField">Name of the field used for the join</param>
+            <param name="processrow">callback method called to process the row</param>
+            <returns>resulting operation</returns>
+        </member>
+        <member name="M:ReactiveETL.JoinExtensions.InnerJoin(ReactiveETL.IObservableOperation,System.Collections.Generic.IEnumerable{ReactiveETL.Row},System.String,System.String,System.Func{ReactiveETL.Row,ReactiveETL.Row,ReactiveETL.Row})">
+            <summary>
+            Join an enumeration of elements to the pipeline
+            </summary>
+            <param name="observed">observed operation</param>
+            <param name="rightOp">operation to join</param>
+            <param name="leftField">Name of the field used for the join</param>
+            <param name="rightField">Name of the field used for the join</param>
+            <param name="processrow">callback method called to process the row</param>
+            <returns>resulting operation</returns>
+        </member>
+        <member name="M:ReactiveETL.JoinExtensions.InnerJoin(ReactiveETL.IObservableOperation,ReactiveETL.IObservableOperation,System.String)">
+            <summary>
+            Join an enumeration of elements to the pipeline
+            </summary>
+            <param name="observed">observed operation</param>
+            <param name="rightOp">operation to join</param>
+            <param name="field">Name of the field used for the join</param>
+            <returns>resulting operation</returns>
+        </member>
+        <member name="M:ReactiveETL.JoinExtensions.InnerJoin(ReactiveETL.IObservableOperation,System.Collections.Generic.IEnumerable{ReactiveETL.Row},System.String)">
+            <summary>
+            Join an enumeration of elements to the pipeline
+            </summary>
+            <param name="observed">observed operation</param>
+            <param name="rightOp">operation to join</param>
+            <param name="field">Name of the field used for the join</param>
+            <returns>resulting operation</returns>
+        </member>
+        <member name="M:ReactiveETL.JoinExtensions.InnerJoin(ReactiveETL.IObservableOperation,ReactiveETL.IObservableOperation,System.String,System.String)">
+            <summary>
+            Join an enumeration of elements to the pipeline
+            </summary>
+            <param name="observed">observed operation</param>
+            <param name="rightOp">operation to join</param>
+            <param name="leftField">Name of the field used for the join</param>
+            <param name="rightField">Name of the field used for the join</param>
+            <returns>resulting operation</returns>
+        </member>
+        <member name="M:ReactiveETL.JoinExtensions.InnerJoin(ReactiveETL.IObservableOperation,System.Collections.Generic.IEnumerable{ReactiveETL.Row},System.String,System.String)">
+            <summary>
+            Join an enumeration of elements to the pipeline
+            </summary>
+            <param name="observed">observed operation</param>
+            <param name="rightOp">operation to join</param>
+            <param name="leftField">Name of the field used for the join</param>
+            <param name="rightField">Name of the field used for the join</param>
+            <returns>resulting operation</returns>
+        </member>
+        <member name="M:ReactiveETL.JoinExtensions.LeftJoin(ReactiveETL.IObservableOperation,ReactiveETL.IObservableOperation,System.String,System.Func{ReactiveETL.Row,ReactiveETL.Row,ReactiveETL.Row})">
+            <summary>
+            Join an enumeration of elements to the pipeline
+            </summary>
+            <param name="observed">observed operation</param>
+            <param name="rightOp">operation to join</param>
+            <param name="field">Name of the field used for the join</param>
+            <param name="processrow">callback method called to process the row</param>
+            <returns>resulting operation</returns>
+        </member>
+        <member name="M:ReactiveETL.JoinExtensions.LeftJoin(ReactiveETL.IObservableOperation,System.Collections.Generic.IEnumerable{ReactiveETL.Row},System.String,System.Func{ReactiveETL.Row,ReactiveETL.Row,ReactiveETL.Row})">
+            <summary>
+            Join an enumeration of elements to the pipeline
+            </summary>
+            <param name="observed">observed operation</param>
+            <param name="rightOp">operation to join</param>
+            <param name="field">Name of the field used for the join</param>
+            <param name="processrow">callback method called to process the row</param>
+            <returns>resulting operation</returns>
+        </member>
+        <member name="M:ReactiveETL.JoinExtensions.LeftJoin(ReactiveETL.IObservableOperation,System.Collections.Generic.IEnumerable{ReactiveETL.Row},System.String,System.String,System.Func{ReactiveETL.Row,ReactiveETL.Row,ReactiveETL.Row})">
+            <summary>
+            Join an enumeration of elements to the pipeline
+            </summary>
+            <param name="observed">observed operation</param>
+            <param name="rightOp">operation to join</param>
+            <param name="leftField">Name of the field used for the join</param>
+            <param name="rightField">Name of the field used for the join</param>
+            <param name="processrow">callback method called to process the row</param>
+            <returns>resulting operation</returns>
+        </member>
+        <member name="M:ReactiveETL.JoinExtensions.LeftJoin(ReactiveETL.IObservableOperation,ReactiveETL.IObservableOperation,System.String,System.String,System.Func{ReactiveETL.Row,ReactiveETL.Row,ReactiveETL.Row})">
+            <summary>
+            Join an enumeration of elements to the pipeline
+            </summary>
+            <param name="observed">observed operation</param>
+            <param name="rightOp">operation to join</param>
+            <param name="leftField">Name of the field used for the join</param>
+            <param name="rightField">Name of the field used for the join</param>
+            <param name="processrow">callback method called to process the row</param>
+            <returns>resulting operation</returns>
+        </member>
+        <member name="M:ReactiveETL.JoinExtensions.LeftJoin(ReactiveETL.IObservableOperation,ReactiveETL.IObservableOperation,System.String)">
+            <summary>
+            Join an enumeration of elements to the pipeline
+            </summary>
+            <param name="observed">observed operation</param>
+            <param name="rightOp">operation to join</param>
+            <param name="field">Name of the field used for the join</param>
+            <returns>resulting operation</returns>
+        </member>
+        <member name="M:ReactiveETL.JoinExtensions.LeftJoin(ReactiveETL.IObservableOperation,System.Collections.Generic.IEnumerable{ReactiveETL.Row},System.String)">
+            <summary>
+            Join an enumeration of elements to the pipeline
+            </summary>
+            <param name="observed">observed operation</param>
+            <param name="rightOp">operation to join</param>
+            <param name="field">Name of the field used for the join</param>
+            <returns>resulting operation</returns>
+        </member>
+        <member name="M:ReactiveETL.JoinExtensions.LeftJoin(ReactiveETL.IObservableOperation,ReactiveETL.IObservableOperation,System.String,System.String)">
+            <summary>
+            Join an enumeration of elements to the pipeline
+            </summary>
+            <param name="observed">observed operation</param>
+            <param name="rightOp">operation to join</param>
+            <param name="leftField">Name of the field used for the join</param>
+            <param name="rightField">Name of the field used for the join</param>
+            <returns>resulting operation</returns>
+        </member>
+        <member name="M:ReactiveETL.JoinExtensions.LeftJoin(ReactiveETL.IObservableOperation,System.Collections.Generic.IEnumerable{ReactiveETL.Row},System.String,System.String)">
+            <summary>
+            Join an enumeration of elements to the pipeline
+            </summary>
+            <param name="observed">observed operation</param>
+            <param name="rightOp">operation to join</param>
+            <param name="leftField">Name of the field used for the join</param>
+            <param name="rightField">Name of the field used for the join</param>
+            <returns>resulting operation</returns>
+        </member>
+        <member name="M:ReactiveETL.JoinExtensions.RightJoin(ReactiveETL.IObservableOperation,ReactiveETL.IObservableOperation,System.String,System.Func{ReactiveETL.Row,ReactiveETL.Row,ReactiveETL.Row})">
+            <summary>
+            Join an enumeration of elements to the pipeline
+            </summary>
+            <param name="observed">observed operation</param>
+            <param name="rightOp">operation to join</param>
+            <param name="field">Name of the field used for the join</param>
+            <param name="processrow">callback method called to process the row</param>
+            <returns>resulting operation</returns>
+        </member>
+        <member name="M:ReactiveETL.JoinExtensions.RightJoin(ReactiveETL.IObservableOperation,System.Collections.Generic.IEnumerable{ReactiveETL.Row},System.String,System.Func{ReactiveETL.Row,ReactiveETL.Row,ReactiveETL.Row})">
+            <summary>
+            Join an enumeration of elements to the pipeline
+            </summary>
+            <param name="observed">observed operation</param>
+            <param name="rightOp">operation to join</param>
+            <param name="field">Name of the field used for the join</param>
+            <param name="processrow">callback method called to process the row</param>
+            <returns>resulting operation</returns>
+        </member>
+        <member name="M:ReactiveETL.JoinExtensions.RightJoin(ReactiveETL.IObservableOperation,ReactiveETL.IObservableOperation,System.String,System.String,System.Func{ReactiveETL.Row,ReactiveETL.Row,ReactiveETL.Row})">
+            <summary>
+            Join an enumeration of elements to the pipeline
+            </summary>
+            <param name="observed">observed operation</param>
+            <param name="rightOp">operation to join</param>
+            <param name="leftField">Name of the field used for the join</param>
+            <param name="rightField">Name of the field used for the join</param>
+            <param name="processrow">callback method called to process the row</param>
+            <returns>resulting operation</returns>
+        </member>
+        <member name="M:ReactiveETL.JoinExtensions.RightJoin(ReactiveETL.IObservableOperation,System.Collections.Generic.IEnumerable{ReactiveETL.Row},System.String,System.String,System.Func{ReactiveETL.Row,ReactiveETL.Row,ReactiveETL.Row})">
+            <summary>
+            Join an enumeration of elements to the pipeline
+            </summary>
+            <param name="observed">observed operation</param>
+            <param name="rightOp">operation to join</param>
+            <param name="leftField">Name of the field used for the join</param>
+            <param name="rightField">Name of the field used for the join</param>
+            <param name="processrow">callback method called to process the row</param>
+            <returns>resulting operation</returns>
+        </member>
+        <member name="M:ReactiveETL.JoinExtensions.RightJoin(ReactiveETL.IObservableOperation,ReactiveETL.IObservableOperation,System.String)">
+            <summary>
+            Join an enumeration of elements to the pipeline
+            </summary>
+            <param name="observed">observed operation</param>
+            <param name="rightOp">operation to join</param>
+            <param name="field">Name of the field used for the join</param>
+            <returns>resulting operation</returns>
+        </member>
+        <member name="M:ReactiveETL.JoinExtensions.RightJoin(ReactiveETL.IObservableOperation,System.Collections.Generic.IEnumerable{ReactiveETL.Row},System.String)">
+            <summary>
+            Join an enumeration of elements to the pipeline
+            </summary>
+            <param name="observed">observed operation</param>
+            <param name="rightOp">operation to join</param>
+            <param name="field">Name of the field used for the join</param>
+            <returns>resulting operation</returns>
+        </member>
+        <member name="M:ReactiveETL.JoinExtensions.RightJoin(ReactiveETL.IObservableOperation,ReactiveETL.IObservableOperation,System.String,System.String)">
+            <summary>
+            Join an enumeration of elements to the pipeline
+            </summary>
+            <param name="observed">observed operation</param>
+            <param name="rightOp">operation to join</param>
+            <param name="leftField">Name of the field used for the join</param>
+            <param name="rightField">Name of the field used for the join</param>
+            <returns>resulting operation</returns>
+        </member>
+        <member name="M:ReactiveETL.JoinExtensions.RightJoin(ReactiveETL.IObservableOperation,System.Collections.Generic.IEnumerable{ReactiveETL.Row},System.String,System.String)">
+            <summary>
+            Join an enumeration of elements to the pipeline
+            </summary>
+            <param name="observed">observed operation</param>
+            <param name="rightOp">operation to join</param>
+            <param name="leftField">Name of the field used for the join</param>
+            <param name="rightField">Name of the field used for the join</param>
+            <returns>resulting operation</returns>
+        </member>
+        <member name="T:ReactiveETL.Extensions">
+            <summary>
+            Extension methods for common operations
+            </summary>
+        </member>
+        <member name="M:ReactiveETL.Extensions.Start(ReactiveETL.IObservableOperation)">
+            <summary>
+            Apply an action on the rows
+            </summary>
+            <param name="observed">observed operation</param>
+            <returns>resulting operation</returns>
+        </member>
+        <member name="M:ReactiveETL.Extensions.StartInThread(ReactiveETL.IObservableOperation)">
+            <summary>
+            Start the operation in a thread. Start method calls are bubbled up through the pipeline
+            </summary>
+        </member>
+        <member name="M:ReactiveETL.Extensions.Execute(ReactiveETL.IObservableOperation)">
+            <summary>
+            Execute the pipeline
+            </summary>
+            <param name="observed">observed operation</param>
+            <returns>List of row resulting from the pipeline</returns>
+        </member>
+        <member name="M:ReactiveETL.Extensions.Execute(ReactiveETL.IObservableOperation,System.Boolean)">
+            <summary>
+            Execute the pipeline
+            </summary>
+            <param name="observed">observed operation</param>
+            <param name="throwOnError">Throw exception on error</param>
+            <returns>List of row resulting from the pipeline</returns>
+        </member>
+        <member name="M:ReactiveETL.Extensions.ExecuteInThread(ReactiveETL.IObservableOperation)">
+            <summary>
+            Execute the pipeline
+            </summary>
+            <param name="observed">observed operation</param>
+            <returns>List of row resulting from the pipeline</returns>
+        </member>
+        <member name="M:ReactiveETL.Extensions.Named``1(``0,System.String)">
+            <summary>
+            Set the name of an operation
+            </summary>
+            <typeparam name="T">type of the operation</typeparam>
+            <param name="operation">operation to name</param>
+            <param name="name">name to apply</param>
+            <returns>named operation</returns>
+        </member>
+        <member name="M:ReactiveETL.Extensions.Record(ReactiveETL.IObservableOperation)">
+            <summary>
+            Operation that record values in a list. 
+            Beware that this operation keep a list of all data in memory
+            </summary>
+            <param name="observed">observed operation</param>
+            <returns>resulting operation</returns>
+        </member>
+        <member name="M:ReactiveETL.Extensions.Operation``1(ReactiveETL.IObservableOperation,System.Object[])">
+            <summary>
+            Add an operation in the pipeline.
+            </summary>
+            <typeparam name="T">type of the operation</typeparam>
+            <param name="observed">observed operation</param>
+            <param name="args">arguments for the constructor</param>
+            <returns>resulting operation</returns>
+        </member>
+        <member name="M:ReactiveETL.Extensions.Transform(ReactiveETL.IObservableOperation,System.Func{ReactiveETL.Row,ReactiveETL.Row})">
+            <summary>
+            Transform the pipelined row
+            </summary>
+            <param name="observed">observed operation</param>
+            <param name="transform">callback method for transforming the row</param>
+            <returns>resulting operation</returns>
+        </member>
+        <member name="M:ReactiveETL.Extensions.Many(ReactiveETL.IObservableOperation,System.Func{ReactiveETL.Row,System.Collections.Generic.IEnumerable{ReactiveETL.Row}})">
+            <summary>
+            Transform the pipelined row
+            </summary>
+            <param name="observed">observed operation</param>
+            <param name="transform">callback method for transforming the row</param>
+            <returns>resulting operation</returns>
+        </member>
+        <member name="M:ReactiveETL.Extensions.Filter(ReactiveETL.IObservableOperation,System.Predicate{ReactiveETL.Row})">
+            <summary>
+            Filter the rows
+            </summary>
+            <param name="observed">observed operation</param>
+            <param name="filterexpr">callback method for filtering</param>
+            <returns>resulting operation</returns>
+        </member>
+        <member name="M:ReactiveETL.Extensions.Apply(ReactiveETL.IObservableOperation,System.Action{ReactiveETL.Row})">
+            <summary>
+            Apply an action on the rows
+            </summary>
+            <param name="observed">observed operation</param>
+            <param name="rowact">callback method for the action</param>
+            <returns>resulting operation</returns>
+        </member>
+        <member name="M:ReactiveETL.Extensions.ConsoleCount(ReactiveETL.IObservableOperation,System.String)">
+            <summary>
+            Write text followed by currently processed row number on console
+            </summary>
+            <param name="observed">observed operation</param>
+            <param name="text">callback method for the action</param>
+            <returns>resulting operation</returns>
+        </member>
+        <member name="M:ReactiveETL.Extensions.GroupBy(ReactiveETL.IObservableOperation,System.String[])">
+            <summary>
+            Apply an action on the rows
+            </summary>
+            <param name="observed">observed operation</param>
+            <param name="columns">callback method for the action</param>
+            <returns>resulting operation</returns>
+        </member>
+        <member name="M:ReactiveETL.Extensions.DispatchGroup(ReactiveETL.IObservableOperation)">
+            <summary>
+            Dispatch the grouped elements (trigger for every grouped rows)
+            </summary>
+            <param name="observed">observed operation</param>
+            <returns>resulting operation</returns>
+        </member>
+        <member name="M:ReactiveETL.Extensions.GroupedRows(ReactiveETL.Row)">
+            <summary>
+            Dispatch the grouped elements (trigger for every grouped rows)
+            </summary>
+            <param name="groupedRow">observed operation</param>
+            <returns>resulting operation</returns>
+        </member>
+        <member name="M:ReactiveETL.Extensions.ParentRow(ReactiveETL.Row)">
+            <summary>
+            Dispatch the grouped elements (trigger for every grouped rows)
+            </summary>
+            <param name="groupedRow">observed operation</param>
+            <returns>resulting operation</returns>
+        </member>
+        <member name="T:ReactiveETL.Guard">
+            <summary>
+            Helper class for guard statements, which allow prettier
+            code for guard clauses
+            </summary>
+        </member>
+        <member name="M:ReactiveETL.Guard.Against(System.Boolean,System.String)">
+            <summary>
+            Will throw a <see cref="T:System.InvalidOperationException"/> if the assertion
+            is true, with the specificied message.
+            </summary>
+            <param name="assertion">if set to <c>true</c> [assertion].</param>
+            <param name="message">The message.</param>
+            <example>
+            Sample usage:
+            <code>
+            Guard.Against(string.IsNullOrEmpty(name), "Name must have a value");
+            </code>
+            </example>
+        </member>
+        <member name="M:ReactiveETL.Guard.Against``1(System.Boolean,System.String)">
+            <summary>
+            Will throw exception of type <typeparamref name="TException"/>
+            with the specified message if the assertion is true
+            </summary>
+            <typeparam name="TException"></typeparam>
+            <param name="assertion">if set to <c>true</c> [assertion].</param>
+            <param name="message">The message.</param>
+            <example>
+            Sample usage:
+            <code>
+            <![CDATA[
+            Guard.Against<ArgumentException>(string.IsNullOrEmpty(name), "Name must have a value");
+            ]]>
+            </code>
+            </example>
+        </member>
+        <member name="T:ReactiveETL.DbHelpers">
+            <summary>
+            Helper methods for database manipulations
+            </summary>
+        </member>
+        <member name="M:ReactiveETL.DbHelpers.AddParameter(System.Data.IDbCommand,System.String,System.Object)">
+            <summary>
+            Adds the parameter the specifed command
+            </summary>
+            <param name="command">The command.</param>
+            <param name="name">The name.</param>
+            <param name="val">The val.</param>
+        </member>
+        <member name="T:ReactiveETL.RowJoinHelper">
+            <summary>
+            Helper methods for join operation on rows
+            </summary>
+        </member>
+        <member name="M:ReactiveETL.RowJoinHelper.#ctor(System.String)">
+            <summary>
+            Constructor of the helper
+            </summary>
+            <param name="fieldName">name of the field to join</param>
+        </member>
+        <member name="M:ReactiveETL.RowJoinHelper.#ctor(System.String,System.String)">
+            <summary>
+            Constructor of the helper
+            </summary>
+            <param name="leftFieldName">name of the field to join in left row</param>
+            <param name="rightFieldName">name of the field to join in right row</param>
+        </member>
+        <member name="M:ReactiveETL.RowJoinHelper.FullJoinMatch(ReactiveETL.Row,ReactiveETL.Row)">
+            <summary>
+            Check for a full join
+            </summary>
+            <param name="leftRow">row from main line</param>
+            <param name="rightRow">row from joined line</param>
+            <returns>true if join match</returns>
+        </member>
+        <member name="M:ReactiveETL.RowJoinHelper.InnerJoinMatch(ReactiveETL.Row,ReactiveETL.Row)">
+            <summary>
+            Check for an inner join
+            </summary>
+            <param name="leftRow">row from main line</param>
+            <param name="rightRow">row from joined line</param>
+            <returns>true if join match</returns>
+        </member>
+        <member name="M:ReactiveETL.RowJoinHelper.LeftJoinMatch(ReactiveETL.Row,ReactiveETL.Row)">
+            <summary>
+            Check for a left join
+            </summary>
+            <param name="leftRow">row from main line</param>
+            <param name="rightRow">row from joined line</param>
+            <returns>true if join match</returns>
+        </member>
+        <member name="M:ReactiveETL.RowJoinHelper.RightJoinMatch(ReactiveETL.Row,ReactiveETL.Row)">
+            <summary>
+            Check for a right join
+            </summary>
+            <param name="leftRow">row from main line</param>
+            <param name="rightRow">row from joined line</param>
+            <returns>true if join match</returns>
+        </member>
+        <member name="M:ReactiveETL.RowJoinHelper.MergeRows(ReactiveETL.Row,ReactiveETL.Row)">
+            <summary>
+            Merge the content of left and right row
+            </summary>
+            <param name="leftRow">row from main line</param>
+            <param name="rightRow">row from joined line</param>
+            <returns>merged row</returns>
+        </member>
+        <member name="T:ReactiveETL.StringExtensions">
+            <summary>
+            Extension methods for strings
+            </summary>
+        </member>
+        <member name="M:ReactiveETL.StringExtensions.RemoveHtml(System.Object)">
+            <summary>
+            Remove Html Markup
+            </summary>
+            <param name="text"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ReactiveETL.StringExtensions.LimitSizeTo(System.Object,System.Int32)">
+            <summary>
+            Limit size of string to the given size
+            </summary>
+            <param name="obj"></param>
+            <param name="size"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ReactiveETL.Infrastructure.SqlCommandSet">
+            <summary>
+            Expose the batch functionality in ADO.Net 2.0
+            Microsoft in its wisdom decided to make my life hard and mark it internal.
+            Through the use of Reflection and some delegates magic, I opened up the functionality.
+            
+            There is NO documentation for this, and likely zero support.
+            Use at your own risk, etc...
+            
+            Observable performance benefits are 50%+ when used, so it is really worth it.
+            </summary>
+        </member>
+        <member name="M:ReactiveETL.Infrastructure.SqlCommandSet.#ctor">
+            <summary>
+            Creates a new instance of SqlCommandSet
+            </summary>
+        </member>
+        <member name="M:ReactiveETL.Infrastructure.SqlCommandSet.Append(System.Data.SqlClient.SqlCommand)">
+            <summary>
+            Append a command to the batch
+            </summary>
+            <param name="command"></param>
+        </member>
+        <member name="M:ReactiveETL.Infrastructure.SqlCommandSet.AssertHasParameters(System.Data.SqlClient.SqlCommand)">
+            <summary>
+            This is required because SqlClient.SqlCommandSet will throw if 
+            the command has no parameters.
+            </summary>
+            <param name="command"></param>
+        </member>
+        <member name="P:ReactiveETL.Infrastructure.SqlCommandSet.BatchCommand">
+            <summary>
+            Return the batch command to be executed
+            </summary>
+        </member>
+        <member name="P:ReactiveETL.Infrastructure.SqlCommandSet.CountOfCommands">
+            <summary>
+            The number of commands batched in this instance
+            </summary>
+        </member>
+        <member name="M:ReactiveETL.Infrastructure.SqlCommandSet.ExecuteNonQuery">
+            <summary>
+            Executes the batch
+            </summary>
+            <returns>
+            This seems to be returning the total number of affected rows in all queries
+            </returns>
+        </member>
+        <member name="P:ReactiveETL.Infrastructure.SqlCommandSet.Connection">
+            <summary>
+             The connection the batch will use
+            </summary>
+        </member>
+        <member name="P:ReactiveETL.Infrastructure.SqlCommandSet.Transaction">
+            <summary>
+            The transaction the batch will run as part of
+            </summary>
+        </member>
+        <member name="M:ReactiveETL.Infrastructure.SqlCommandSet.Dispose">
+            <summary>
+            Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+            </summary>
+            <filterpriority>2</filterpriority>
+        </member>
+        <member name="T:ReactiveETL.Infrastructure.Use">
+            <summary>
+            Helper class to provide simple data access, when we want to access the ADO.Net
+            library directly. 
+            </summary>
+        </member>
+        <member name="T:ReactiveETL.Infrastructure.Use.Func`1">
+            <summary>
+            Delegate to execute an action with a command
+            and return a result: <typeparam name="T"/>
+            </summary>
+        </member>
+        <member name="T:ReactiveETL.Infrastructure.Use.Proc">
+            <summary>
+            Delegate to execute an action with a command
+            </summary>
+        </member>
+        <member name="F:ReactiveETL.Infrastructure.Use.ActiveConnection">
+            <summary>
+            Gets or sets the active connection.
+            </summary>
+            <value>The active connection.</value>
+        </member>
+        <member name="F:ReactiveETL.Infrastructure.Use.ActiveTransaction">
+            <summary>
+            Gets or sets the active transaction.
+            </summary>
+            <value>The active transaction.</value>
+        </member>
+        <member name="F:ReactiveETL.Infrastructure.Use.TransactionCounter">
+            <summary>
+            Gets or sets the transaction counter.
+            </summary>
+            <value>The transaction counter.</value>
+        </member>
+        <member name="M:ReactiveETL.Infrastructure.Use.Transaction``1(System.String,ReactiveETL.Infrastructure.Use.Func{``0})">
+            <summary>
+            Execute the specified delegate inside a transaction and return 
+            the result of the delegate.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="connectionStringName">The name of the named connection string in the configuration file</param>
+            <param name="actionToExecute">The action to execute</param>
+            <returns></returns>
+        </member>
+        <member name="M:ReactiveETL.Infrastructure.Use.Transaction(System.String,ReactiveETL.Infrastructure.Use.Proc)">
+            <summary>
+            Execute the specified delegate inside a transaction
+            </summary>
+            <param name="connectionStringName">Name of the connection string.</param>
+            <param name="actionToExecute">The action to execute.</param>
+        </member>
+        <member name="M:ReactiveETL.Infrastructure.Use.Transaction(System.String,System.Data.IsolationLevel,ReactiveETL.Infrastructure.Use.Proc)">
+            <summary>
+            Execute the specified delegate inside a transaction with the specific
+            isolation level 
+            </summary>
+            <param name="connectionStringName">Name of the connection string.</param>
+            <param name="isolationLevel">The isolation level.</param>
+            <param name="actionToExecute">The action to execute.</param>
+        </member>
+        <member name="M:ReactiveETL.Infrastructure.Use.DisposeTransaction">
+            <summary>
+            Disposes the transaction.
+            </summary>
+        </member>
+        <member name="M:ReactiveETL.Infrastructure.Use.RollbackTransaction">
+            <summary>
+            Rollbacks the transaction.
+            </summary>
+        </member>
+        <member name="M:ReactiveETL.Infrastructure.Use.CommitTransaction">
+            <summary>
+            Commits the transaction.
+            </summary>
+        </member>
+        <member name="M:ReactiveETL.Infrastructure.Use.StartTransaction(System.String,System.Data.IsolationLevel)">
+            <summary>
+            Starts the transaction.
+            </summary>
+            <param name="name">The name.</param>
+            <param name="isolation">The isolation.</param>
+        </member>
+        <member name="M:ReactiveETL.Infrastructure.Use.Connection(System.String)">
+            <summary>
+            Creates an open connection for a given named connection string, using the provider name
+            to select the proper implementation
+            </summary>
+            <param name="name">The name.</param>
+            <returns>The open connection</returns>
+        </member>
+        <member name="T:ReactiveETL.Input">
+            <summary>
+            Helper call for starting a pipeline process
+            </summary>
+        </member>
+        <member name="M:ReactiveETL.Input.Query(System.String,System.String)">
+            <summary>
+            Apply a database query command
+            </summary>
+            <param name="connStr">Name of a connection string defined in the application configuration file</param>
+            <param name="CommandText">Text of the command</param>
+            <returns>command operation</returns>
+        </member>
+        <member name="M:ReactiveETL.Input.Query(System.String,System.String,System.Boolean)">
+            <summary>
+            Apply a database query command
+            </summary>
+            <param name="connStr">Name of a connection string defined in the application configuration file</param>
+            <param name="CommandText">Text of the command</param>
+            <param name="failOnError">Indicate if the operation must fail on element error</param>
+            <returns>command operation</returns>
+        </member>
+        <member name="M:ReactiveETL.Input.Query(System.Data.IDbConnection,System.String)">
+            <summary>
+            Apply a database query command
+            </summary>
+            <param name="connection">Database connection</param>
+            <param name="CommandText">Text of the command</param>
+            <returns>command operation</returns>
+        </member>
+        <member name="M:ReactiveETL.Input.Query(System.Data.IDbConnection,System.String,System.Boolean)">
+            <summary>
+            Apply a database query command
+            </summary>
+            <param name="connection">Database connection</param>
+            <param name="CommandText">Text of the command</param>
+            <param name="failOnError">Indicate if the operation must fail on element error</param>
+            <returns>command operation</returns>
+        </member>
+        <member name="M:ReactiveETL.Input.NonQuery(System.String,System.String)">
+            <summary>
+            Apply a database non query command
+            </summary>
+            <param name="connStr">Name of a connection string defined in the application configuration file</param>
+            <param name="CommandText">Text of the command</param>
+            <returns>command operation</returns>
+        </member>
+        <member name="M:ReactiveETL.Input.RunNonQuery(System.String,System.String)">
+            <summary>
+            Apply a database non query command
+            </summary>
+            <param name="connStr">Name of a connection string defined in the application configuration file</param>
+            <param name="CommandText">Text of the command</param>
+            <returns>command operation</returns>
+        </member>
+        <member name="M:ReactiveETL.Input.NonQuery(System.Data.IDbConnection,System.String)">
+            <summary>
+            Apply a database non query command
+            </summary>
+            <param name="connection">Database connection</param>
+            <param name="CommandText">Text of the command</param>
+            <returns>command operation</returns>
+        </member>
+        <member name="M:ReactiveETL.Input.Command(ReactiveETL.Activators.CommandActivator)">
+            <summary>
+            Apply a database command
+            </summary>
+            <param name="activator">command parameters</param>
+            <returns>command operation</returns>
+        </member>
+        <member name="M:ReactiveETL.Input.Command(System.String,System.String,System.Boolean,System.Boolean,System.Action{System.Data.IDbCommand,ReactiveETL.Row})">
+            <summary>
+            Apply a database command
+            </summary>
+            <param name="connStr">Name of a connection string defined in the application configuration file</param>
+            <param name="CommandText">Text of the command</param>
+            <param name="isQuery">Indicate if the command is a query</param>
+            <param name="failOnError">Indicate if the operation must fail on element error</param>
+            <param name="Prepare">Callback method to prepare the command</param>
+            <returns>Command operation</returns>
+        </member>
+        <member name="M:ReactiveETL.Input.Command(System.Data.IDbConnection,System.String,System.Boolean,System.Boolean,System.Action{System.Data.IDbCommand,ReactiveETL.Row})">
+            <summary>
+            Apply a database command
+            </summary>
+            <param name="connection">Database connection</param>
+            <param name="CommandText">Text of the command</param>
+            <param name="isQuery">Indicate if the command is a query</param>
+            <param name="failOnError">Indicate if the operation must fail on element error</param>
+            <param name="Prepare">Callback method to prepare the command</param>
+            <returns>Command operation</returns>
+        </member>
+        <member name="M:ReactiveETL.Input.ReadFile``1(System.String)">
+            <summary>
+            Input data from a file
+            </summary>
+            <typeparam name="T">type of the object used to read the file content</typeparam>
+            <param name="filename">full path to the file</param>
+            <returns>file read operation</returns>
+        </member>
+        <member name="M:ReactiveETL.Input.ReadFile``1(System.IO.Stream)">
+            <summary>
+            Input data from a file
+            </summary>
+            <typeparam name="T">type of the object used to read the file content</typeparam>
+            <param name="strm">file stream</param>
+            <returns>file read operation</returns>
+        </member>
+        <member name="M:ReactiveETL.Input.ReadFile``1(System.IO.StreamReader)">
+            <summary>
+            Input data from a file
+            </summary>
+            <typeparam name="T">type of the object used to read the file content</typeparam>
+            <param name="reader">file stream</param>
+            <returns>file read operation</returns>
+        </member>
+        <member name="M:ReactiveETL.Input.From``1(System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            Input data from an enumerable
+            </summary>
+            <typeparam name="T">type of the object used in the enumerable</typeparam>
+            <param name="source">data source</param>
+            <returns>enumerable operation</returns>
+        </member>
+        <member name="T:ReactiveETL.IObservableOperation">
+            <summary>
+            Service contract for input operation
+            </summary>
+        </member>
+        <member name="P:ReactiveETL.IObservableOperation.Name">
+            <summary>
+            Name of the operation
+            </summary>
+        </member>
+        <member name="P:ReactiveETL.IObservableOperation.Completed">
+            <summary>
+            Indicate if the operation is over
+            </summary>
+        </member>
+        <member name="P:ReactiveETL.IObservableOperation.Observers">
+            <summary>
+            List of observers of this operation
+            </summary>
+        </member>
+        <member name="M:ReactiveETL.IObservableOperation.Trigger">
+            <summary>
+            Start the operation. Start method calls are bubbled up through the pipeline
+            </summary>
+        </member>
+        <member name="T:ReactiveETL.Operations.ApplyOperation">
+            <summary>
+            Operation to apply an action from the rows
+            </summary>
+        </member>
+        <member name="M:ReactiveETL.Operations.ApplyOperation.#ctor(System.Action{ReactiveETL.Row})">
+            <summary>
+            Constructor of the action
+            </summary>
+            <param name="rowAction">callback method to the action</param>
+        </member>
+        <member name="M:ReactiveETL.Operations.ApplyOperation.TreatRow(ReactiveETL.Row)">
+            <summary>
+            Method called by OnNext > Dispatch to process the notified value. This method just return the value and could be overriden in subclasses
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ReactiveETL.Operations.ConsoleCountOperation">
+            <summary>
+            Output count to console
+            </summary>
+        </member>
+        <member name="M:ReactiveETL.Operations.ConsoleCountOperation.#ctor(System.String)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="text"></param>
+        </member>
+        <member name="M:ReactiveETL.Operations.ConsoleCountOperation.Dispatch(ReactiveETL.Row)">
+            <summary>
+            Dispatch the value only if filter condition is met
+            </summary>
+            <param name="value">value to dispatch</param>
+        </member>
+        <member name="M:ReactiveETL.Operations.ConsoleCountOperation.OnCompleted">
+            <summary>
+            Notifies the observers of the end of the sequence.
+            </summary>
+        </member>
+        <member name="T:ReactiveETL.Operations.Database.InputCommandOperation">
+            <summary>
+            Observable list of elements
+            </summary>
+        </member>
+        <member name="M:ReactiveETL.Operations.Database.InputCommandOperation.#ctor(ReactiveETL.Activators.CommandActivator)">
+            <summary>
+            Constructor of input command operation
+            </summary>
+            <param name="activator"></param>
+        </member>
+        <member name="M:ReactiveETL.Operations.Database.InputCommandOperation.Trigger">
+            <summary>
+            Notifies the observer of a new value in the sequence. It's best to override Dispatch or TreatRow than this method because this method contains pipelining logic.
+            </summary>
+        </member>
+        <member name="T:ReactiveETL.Operations.Database.CommandOperation">
+            <summary>
+            Operation that apply a database command. If this operation is a starting point (it does not observe anything), calling the process method will execute the command and start the pipeline.
+            </summary>
+        </member>
+        <member name="M:ReactiveETL.Operations.Database.CommandOperation.#ctor(ReactiveETL.Activators.CommandActivator)">
+            <summary>
+            Command operation constructor
+            </summary>
+            <param name="activator">command parameters</param>
+        </member>
+        <member name="M:ReactiveETL.Operations.Database.CommandOperation.OnNext(ReactiveETL.Row)">
+            <summary>
+            Notifies the observer of a new value in the sequence. It's best to override Dispatch or TreatRow than this method because this method contains pipelining logic.
+            </summary>
+        </member>
+        <member name="M:ReactiveETL.Operations.Database.CommandOperation.OnCompleted">
+            <summary>
+            Notifies the observers of the end of the sequence.
+            </summary>
+        </member>
+        <member name="T:ReactiveETL.Operations.DispatchGroupOperation">
+            <summary>
+            Operation to dispatch grouped elements
+            </summary>
+        </member>
+        <member name="M:ReactiveETL.Operations.DispatchGroupOperation.Dispatch(ReactiveETL.Row)">
+            <summary>
+            Method called by OnNext to dispatch the new value to the observers of the operation
+            </summary>
+            <param name="value">value to dispatch</param>
+        </member>
+        <member name="T:ReactiveETL.Operations.File.FileWriteOperation`1">
+            <summary>
+            Operation to write to a file
+            </summary>
+        </member>
+        <member name="M:ReactiveETL.Operations.File.FileWriteOperation`1.#ctor(ReactiveETL.Activators.FileWriteActivator{`0})">
+            <summary>
+            File Write constructor
+            </summary>
+            <param name="activator">file write parameters</param>
+        </member>
+        <member name="M:ReactiveETL.Operations.File.FileWriteOperation`1.TreatRow(ReactiveETL.Row)">
+            <summary>
+            Method called by OnNext > Dispatch to process the notified value. This method just return the value and could be overriden in subclasses
+            </summary>
+            <param name="value">pipelined value</param>
+            <returns>treated row</returns>
+        </member>
+        <member name="M:ReactiveETL.Operations.File.FileWriteOperation`1.OnCompleted">
+            <summary>
+            Notifies the observer of the end of the sequence.
+            </summary>
+        </member>
+        <member name="T:ReactiveETL.Operations.File.InputFileOperation`1">
+            <summary>
+            Operation for reading a file
+            </summary>
+            <typeparam name="T">type of the objects in the file</typeparam>
+        </member>
+        <member name="M:ReactiveETL.Operations.File.InputFileOperation`1.#ctor(System.String)">
+            <summary>
+            File read constructor
+            </summary>
+            <param name="filename">full path to the file</param>
+        </member>
+        <member name="M:ReactiveETL.Operations.File.InputFileOperation`1.#ctor(System.IO.Stream)">
+            <summary>
+            File read constructor
+            </summary>
+            <param name="strm">Stream to the file</param>
+        </member>
+        <member name="M:ReactiveETL.Operations.File.InputFileOperation`1.#ctor(System.IO.StreamReader)">
+            <summary>
+            File read constructor
+            </summary>
+            <param name="strmReader">Stream to the file</param>
+        </member>
+        <member name="M:ReactiveETL.Operations.File.InputFileOperation`1.Trigger">
+            <summary>
+            Notifies the observer of a new value in the sequence. It's best to override Dispatch or TreatRow than this method because this method contains pipelining logic.
+            </summary>
+        </member>
+        <member name="T:ReactiveETL.Operations.GroupByOperation">
+            <summary>
+            Operation to group values
+            </summary>
+        </member>
+        <member name="M:ReactiveETL.Operations.GroupByOperation.#ctor(System.String[])">
+            <summary>
+            Constructor
+            </summary>
+            <param name="columns"></param>
+        </member>
+        <member name="M:ReactiveETL.Operations.GroupByOperation.Dispatch(ReactiveETL.Row)">
+            <summary>
+            Method called by OnNext to dispatch the new value to the observers of the operation
+            </summary>
+            <param name="value">value to dispatch</param>
+        </member>
+        <member name="M:ReactiveETL.Operations.GroupByOperation.OnCompleted">
+            <summary>
+            Notifies the observers of the end of the sequence.
+            </summary>
+        </member>
+        <member name="T:ReactiveETL.Operations.InputEnumerableOperation`1">
+            <summary>
+            Operation used to create an operation from an enumeration
+            </summary>
+        </member>
+        <member name="M:ReactiveETL.Operations.InputEnumerableOperation`1.#ctor(System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            Enumerable operation constructor
+            </summary>
+            <param name="enumeration">enumeration to use as data input</param>
+        </member>
+        <member name="M:ReactiveETL.Operations.InputEnumerableOperation`1.Trigger">
+            <summary>
+            Notifies the observer of a new value in the sequence. It's best to override Dispatch or TreatRow than this method because this method contains pipelining logic.
+            </summary>
+        </member>
+        <member name="T:ReactiveETL.Operations.StartOperation">
+            <summary>
+            Operation used to record minimum run informations
+            </summary>
+        </member>
+        <member name="M:ReactiveETL.Operations.StartOperation.#ctor">
+            <summary>
+            Constructor of start operation
+            </summary>
+        </member>
+        <member name="P:ReactiveETL.Operations.StartOperation.Result">
+            <summary>
+            Result of the pipeline's process
+            </summary>
+        </member>
+        <member name="M:ReactiveETL.Operations.StartOperation.OnError(System.Exception)">
+            <summary>
+            Notifies the observer that an exception has occurred.
+            </summary>
+        </member>
+        <member name="M:ReactiveETL.Operations.StartOperation.Trigger">
+            <summary>
+            Trigger the operation. Trigger method calls are bubbled up through the pipeline
+            </summary>
+        </member>
+        <member name="M:ReactiveETL.Operations.StartOperation.OnCompleted">
+            <summary>
+            Notifies the observer of the end of the sequence.
+            </summary>
+        </member>
+        <member name="T:ReactiveETL.Operations.FilterOperation">
+            <summary>
+            Operation to filter data in the pipeline
+            </summary>
+        </member>
+        <member name="M:ReactiveETL.Operations.FilterOperation.#ctor(System.Predicate{ReactiveETL.Row})">
+            <summary>
+            Filter operation constructor
+            </summary>
+            <param name="predicate">predicate applyied to filter data</param>
+        </member>
+        <member name="M:ReactiveETL.Operations.FilterOperation.Dispatch(ReactiveETL.Row)">
+            <summary>
+            Dispatch the value only if filter condition is met
+            </summary>
+            <param name="value">value to dispatch</param>
+        </member>
+        <member name="T:ReactiveETL.Operations.JoinOperation`1">
+            <summary>
+            Operation for joining data in the pipeline
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:ReactiveETL.Operations.JoinOperation`1.#ctor(ReactiveETL.Activators.JoinActivator{`0})">
+            <summary>
+            Join operation constructor
+            </summary>
+            <param name="activator">Join operation activator</param>
+        </member>
+        <member name="M:ReactiveETL.Operations.JoinOperation`1.TreatRow(ReactiveETL.Row)">
+            <summary>
+            Method called by OnNext > Dispatch to process the notified value. This method just return the value and could be overriden in subclasses
+            </summary>
+            <param name="value">pipelined value</param>
+            <returns>Processed row</returns>
+        </member>
+        <member name="M:ReactiveETL.Operations.JoinOperation`1.OnCompleted">
+            <summary>
+            Notifies the observers of the end of the sequence.
+            </summary>
+        </member>
+        <member name="T:ReactiveETL.Operations.RecordOperation">
+            <summary>
+            Operation that record values in a list while continuing the pipeline
+            </summary>
+        </member>
+        <member name="M:ReactiveETL.Operations.RecordOperation.#ctor">
+            <summary>
+            Constructor of the operation
+            </summary>
+        </member>
+        <member name="P:ReactiveETL.Operations.RecordOperation.Result">
+            <summary>
+            Elements recorded by the operation
+            </summary>
+        </member>
+        <member name="M:ReactiveETL.Operations.RecordOperation.OnNext(ReactiveETL.Row)">
+            <summary>
+            Notifies the observer of a new value in the sequence. It's best to override Dispatch or TreatRow than this method because this method contains pipelining logic.
+            </summary>
+        </member>
+        <member name="T:ReactiveETL.Operations.TransformOperation">
+            <summary>
+            Operation for transforming the current <see cref="T:ReactiveETL.Row"/>
+            </summary>
+        </member>
+        <member name="M:ReactiveETL.Operations.TransformOperation.#ctor(System.Func{ReactiveETL.Row,ReactiveETL.Row})">
+            <summary>
+            Transform operation constructor
+            </summary>
+            <param name="transformact">callback method for transforming the <see cref="T:ReactiveETL.Row"/></param>
+        </member>
+        <member name="M:ReactiveETL.Operations.TransformOperation.#ctor(System.Func{ReactiveETL.Row,System.Collections.Generic.IEnumerable{ReactiveETL.Row}})">
+            <summary>
+            Transform operation constructor
+            </summary>
+            <param name="transformact">callback method for transforming the <see cref="T:ReactiveETL.Row"/></param>
+        </member>
+        <member name="M:ReactiveETL.Operations.TransformOperation.Dispatch(ReactiveETL.Row)">
+            <summary>
+            Method called by OnNext to dispatch the new value to the observers of the operation
+            </summary>
+            <param name="value">value to dispatch</param>
+        </member>
+        <member name="T:ReactiveETL.IOperation">
+            <summary>
+            Service contract for operations
+            </summary>
+        </member>
+        <member name="P:ReactiveETL.IOperation.Observed">
+            <summary>
+            List of operation observed by this operation
+            </summary>
+        </member>
+        <member name="T:ReactiveETL.ObjectArrayKeys">
+            <summary>
+            This is a utility clss that allows to treat a set of values as key, so it can be put
+            into hash tables and retrieved easily.
+            </summary>
+        </member>
+        <member name="M:ReactiveETL.ObjectArrayKeys.#ctor(System.Object[])">
+            <summary>
+            Initializes a new instance of the <see cref="T:ReactiveETL.ObjectArrayKeys"/> class.
+            </summary>
+            <param name="columnValues">The column values.</param>
+        </member>
+        <member name="M:ReactiveETL.ObjectArrayKeys.Equals(System.Object)">
+            <summary>
+            Determines whether the specified <see cref="T:System.Object"/> is equal to the current <see cref="T:System.Object"/>.
+            </summary>
+            <param name="obj">The <see cref="T:System.Object"/> to compare with the current <see cref="T:System.Object"/>.</param>
+            <returns>
+            true if the specified <see cref="T:System.Object"/> is equal to the current <see cref="T:System.Object"/>; otherwise, false.
+            </returns>
+            <exception cref="T:System.NullReferenceException">The <paramref name="obj"/> parameter is null.</exception>
+        </member>
+        <member name="M:ReactiveETL.ObjectArrayKeys.GetHashCode">
+            <summary>
+            Serves as a hash function for a particular type.
+            </summary>
+            <returns>
+            A hash code for the current <see cref="T:System.Object"/>.
+            </returns>
+        </member>
+        <member name="T:ReactiveETL.QuackingDictionary">
+            <summary>
+            A dictionary that can be access with a natural syntax from Boo
+            </summary>
+        </member>
+        <member name="F:ReactiveETL.QuackingDictionary.items">
+            <summary>
+            The inner items collection
+            </summary>
+        </member>
+        <member name="F:ReactiveETL.QuackingDictionary.lastAccess">
+            <summary>
+            The last item that was access, useful for debugging
+            </summary>
+        </member>
+        <member name="M:ReactiveETL.QuackingDictionary.ShouldThorwIfKeyNotFound">
+            <summary>
+            Set the flag to thorw if key not found.
+            </summary>
+        </member>
+        <member name="M:ReactiveETL.QuackingDictionary.#ctor(System.Collections.IDictionary)">
+            <summary>
+            Initializes a new instance of the <see cref="T:ReactiveETL.QuackingDictionary"/> class.
+            </summary>
+            <param name="items">The items.</param>
+        </member>
+        <member name="P:ReactiveETL.QuackingDictionary.Item(System.String)">
+            <summary>
+            Gets or sets the <see cref="T:System.Object"/> with the specified key.
+            </summary>
+            <value></value>
+        </member>
+        <member name="M:ReactiveETL.QuackingDictionary.QuackGet(System.String,System.Object[])">
+            <summary>
+            Get a value by name or first parameter
+            </summary>
+        </member>
+        <member name="M:ReactiveETL.QuackingDictionary.QuackSet(System.String,System.Object[],System.Object)">
+            <summary>
+            Set a value on the given name or first parameter
+            </summary>
+        </member>
+        <member name="M:ReactiveETL.QuackingDictionary.QuackInvoke(System.String,System.Object[])">
+            <summary>
+            Not supported
+            </summary>
+        </member>
+        <member name="T:ReactiveETL.QuackingDictionary.QuackingDictionaryDebugView">
+            <summary>
+            A debbug view of quacking dictionary
+            </summary>
+        </member>
+        <member name="M:ReactiveETL.QuackingDictionary.QuackingDictionaryDebugView.#ctor(ReactiveETL.QuackingDictionary)">
+            <summary>
+            Initializes a new instance of the <see cref="T:ReactiveETL.QuackingDictionary.QuackingDictionaryDebugView"/> class.
+            </summary>
+            <param name="dictionary">The dictionary.</param>
+        </member>
+        <member name="P:ReactiveETL.QuackingDictionary.QuackingDictionaryDebugView.Items">
+            <summary>
+            Gets the items.
+            </summary>
+            <value>The items.</value>
+        </member>
+        <member name="T:ReactiveETL.QuackingDictionary.QuackingDictionaryDebugView.KeyValuePair">
+            <summary>
+            Represent a single key/value pair for the debugger
+            </summary>
+        </member>
+        <member name="M:ReactiveETL.QuackingDictionary.QuackingDictionaryDebugView.KeyValuePair.#ctor(System.Object,System.Object)">
+            <summary>
+            Initializes a new instance of the <see cref="T:ReactiveETL.QuackingDictionary.QuackingDictionaryDebugView.KeyValuePair"/> class.
+            </summary>
+            <param name="key">The key.</param>
+            <param name="value">The value.</param>
+        </member>
+        <member name="P:ReactiveETL.QuackingDictionary.QuackingDictionaryDebugView.KeyValuePair.Key">
+            <summary>
+            Gets the key.
+            </summary>
+            <value>The key.</value>
+        </member>
+        <member name="P:ReactiveETL.QuackingDictionary.QuackingDictionaryDebugView.KeyValuePair.Value">
+            <summary>
+            Gets the value.
+            </summary>
+            <value>The value.</value>
+        </member>
+        <member name="M:ReactiveETL.QuackingDictionary.ToString">
+            <summary>
+            Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+            </summary>
+            <returns>
+            A <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+            </returns>
+        </member>
+        <member name="M:ReactiveETL.QuackingDictionary.GetEnumerator">
+            <summary>
+            Returns an enumerator that iterates through a collection.
+            </summary>
+            <returns>
+            An <see cref="T:System.Collections.IEnumerator"/> object that can be used to iterate through the collection.
+            </returns>
+        </member>
+        <member name="M:ReactiveETL.QuackingDictionary.System#Collections#IDictionary#GetEnumerator">
+            <summary>
+            Returns an <see cref="T:System.Collections.IDictionaryEnumerator"></see> object for the <see cref="T:System.Collections.IDictionary"></see> object.
+            </summary>
+            
+            <returns>
+            An <see cref="T:System.Collections.IDictionaryEnumerator"></see> object for the <see cref="T:System.Collections.IDictionary"></see> object.
+            </returns>
+            <filterpriority>2</filterpriority>
+        </member>
+        <member name="M:ReactiveETL.QuackingDictionary.Contains(System.Object)">
+            <summary>
+            Determines whether the <see cref="T:System.Collections.IDictionary"></see> object contains an element with the specified key.
+            </summary>
+            
+            <returns>
+            true if the <see cref="T:System.Collections.IDictionary"></see> contains an element with the key; otherwise, false.
+            </returns>
+            
+            <param name="key">The key to locate in the <see cref="T:System.Collections.IDictionary"></see> object.</param>
+            <exception cref="T:System.ArgumentNullException">key is null. </exception><filterpriority>2</filterpriority>
+        </member>
+        <member name="M:ReactiveETL.QuackingDictionary.Add(System.Object,System.Object)">
+            <summary>
+            Adds an element with the provided key and value to the <see cref="T:System.Collections.IDictionary"></see> object.
+            </summary>
+            
+            <param name="value">The <see cref="T:System.Object"></see> to use as the value of the element to add. </param>
+            <param name="key">The <see cref="T:System.Object"></see> to use as the key of the element to add. </param>
+            <exception cref="T:System.ArgumentException">An element with the same key already exists in the <see cref="T:System.Collections.IDictionary"></see> object. </exception>
+            <exception cref="T:System.ArgumentNullException">key is null. </exception>
+            <exception cref="T:System.NotSupportedException">The <see cref="T:System.Collections.IDictionary"></see> is read-only.-or- The <see cref="T:System.Collections.IDictionary"></see> has a fixed size. </exception><filterpriority>2</filterpriority>
+        </member>
+        <member name="M:ReactiveETL.QuackingDictionary.Clear">
+            <summary>
+            Removes all elements from the <see cref="T:System.Collections.IDictionary"></see> object.
+            </summary>
+            
+            <exception cref="T:System.NotSupportedException">The <see cref="T:System.Collections.IDictionary"></see> object is read-only. </exception><filterpriority>2</filterpriority>
+        </member>
+        <member name="M:ReactiveETL.QuackingDictionary.Remove(System.Object)">
+            <summary>
+            Removes the element with the specified key from the <see cref="T:System.Collections.IDictionary"></see> object.
+            </summary>
+            
+            <param name="key">The key of the element to remove. </param>
+            <exception cref="T:System.NotSupportedException">The <see cref="T:System.Collections.IDictionary"></see> object is read-only.-or- The <see cref="T:System.Collections.IDictionary"></see> has a fixed size. </exception>
+            <exception cref="T:System.ArgumentNullException">key is null. </exception><filterpriority>2</filterpriority>
+        </member>
+        <member name="P:ReactiveETL.QuackingDictionary.Item(System.Object)">
+            <summary>
+            Gets or sets the element with the specified key.
+            </summary>
+            
+            <returns>
+            The element with the specified key.
+            </returns>
+            
+            <param name="key">The key of the element to get or set. </param>
+            <exception cref="T:System.NotSupportedException">The property is set and the <see cref="T:System.Collections.IDictionary"></see> object is read-only.-or- The property is set, key does not exist in the collection, and the <see cref="T:System.Collections.IDictionary"></see> has a fixed size. </exception>
+            <exception cref="T:System.ArgumentNullException">key is null. </exception><filterpriority>2</filterpriority>
+        </member>
+        <member name="P:ReactiveETL.QuackingDictionary.Keys">
+            <summary>
+            Gets an <see cref="T:System.Collections.ICollection"></see> object containing the keys of the <see cref="T:System.Collections.IDictionary"></see> object.
+            </summary>
+            
+            <returns>
+            An <see cref="T:System.Collections.ICollection"></see> object containing the keys of the <see cref="T:System.Collections.IDictionary"></see> object.
+            </returns>
+            <filterpriority>2</filterpriority>
+        </member>
+        <member name="P:ReactiveETL.QuackingDictionary.Values">
+            <summary>
+            Gets an <see cref="T:System.Collections.ICollection"></see> object containing the values in the <see cref="T:System.Collections.IDictionary"></see> object.
+            </summary>
+            
+            <returns>
+            An <see cref="T:System.Collections.ICollection"></see> object containing the values in the <see cref="T:System.Collections.IDictionary"></see> object.
+            </returns>
+            <filterpriority>2</filterpriority>
+        </member>
+        <member name="P:ReactiveETL.QuackingDictionary.IsReadOnly">
+            <summary>
+            Gets a value indicating whether the <see cref="T:System.Collections.IDictionary"></see> object is read-only.
+            </summary>
+            
+            <returns>
+            true if the <see cref="T:System.Collections.IDictionary"></see> object is read-only; otherwise, false.
+            </returns>
+            <filterpriority>2</filterpriority>
+        </member>
+        <member name="P:ReactiveETL.QuackingDictionary.IsFixedSize">
+            <summary>
+            Gets a value indicating whether the <see cref="T:System.Collections.IDictionary"></see> object has a fixed size.
+            </summary>
+            
+            <returns>
+            true if the <see cref="T:System.Collections.IDictionary"></see> object has a fixed size; otherwise, false.
+            </returns>
+            <filterpriority>2</filterpriority>
+        </member>
+        <member name="M:ReactiveETL.QuackingDictionary.CopyTo(System.Array,System.Int32)">
+            <summary>
+            Copies the elements of the <see cref="T:System.Collections.ICollection"></see> to an <see cref="T:System.Array"></see>, starting at a particular <see cref="T:System.Array"></see> index.
+            </summary>
+            
+            <param name="array">The one-dimensional <see cref="T:System.Array"></see> that is the destination of the elements copied from <see cref="T:System.Collections.ICollection"></see>. The <see cref="T:System.Array"></see> must have zero-based indexing. </param>
+            <param name="index">The zero-based index in array at which copying begins. </param>
+            <exception cref="T:System.ArgumentNullException">array is null. </exception>
+            <exception cref="T:System.ArgumentException">The type of the source <see cref="T:System.Collections.ICollection"></see> cannot be cast automatically to the type of the destination array. </exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">index is less than zero. </exception>
+            <exception cref="T:System.ArgumentException">array is multidimensional.-or- index is equal to or greater than the length of array.-or- The number of elements in the source <see cref="T:System.Collections.ICollection"></see> is greater than the available space from index to the end of the destination array. </exception><filterpriority>2</filterpriority>
+        </member>
+        <member name="P:ReactiveETL.QuackingDictionary.Count">
+            <summary>
+            Gets the number of elements contained in the <see cref="T:System.Collections.ICollection"></see>.
+            </summary>
+            
+            <returns>
+            The number of elements contained in the <see cref="T:System.Collections.ICollection"></see>.
+            </returns>
+            <filterpriority>2</filterpriority>
+        </member>
+        <member name="P:ReactiveETL.QuackingDictionary.SyncRoot">
+            <summary>
+            Gets an object that can be used to synchronize access to the <see cref="T:System.Collections.ICollection"></see>.
+            </summary>
+            
+            <returns>
+            An object that can be used to synchronize access to the <see cref="T:System.Collections.ICollection"></see>.
+            </returns>
+            <filterpriority>2</filterpriority>
+        </member>
+        <member name="P:ReactiveETL.QuackingDictionary.IsSynchronized">
+            <summary>
+            Gets a value indicating whether access to the <see cref="T:System.Collections.ICollection"></see> is synchronized (thread safe).
+            </summary>
+            
+            <returns>
+            true if access to the <see cref="T:System.Collections.ICollection"></see> is synchronized (thread safe); otherwise, false.
+            </returns>
+            <filterpriority>2</filterpriority>
+        </member>
+        <member name="T:ReactiveETL.Row">
+            <summary>
+            Represent a virtual row
+            </summary>
+        </member>
+        <member name="M:ReactiveETL.Row.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:ReactiveETL.Row"/> class.
+            </summary>
+        </member>
+        <member name="M:ReactiveETL.Row.#ctor(System.Collections.IDictionary)">
+            <summary>
+            Initializes a new instance of the <see cref="T:ReactiveETL.Row"/> class.
+            </summary>
+            <param name="itemsToClone">The items to clone.</param>
+        </member>
+        <member name="M:ReactiveETL.Row.Copy(System.Collections.IDictionary)">
+            <summary>
+            Creates a copy of the given source, erasing whatever is in the row currently.
+            </summary>
+            <param name="source">The source row.</param>
+        </member>
+        <member name="P:ReactiveETL.Row.Columns">
+            <summary>
+            Gets the columns in this row.
+            </summary>
+            <value>The columns.</value>
+        </member>
+        <member name="M:ReactiveETL.Row.Clone">
+            <summary>
+            Clones this instance.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ReactiveETL.Row.Equals(ReactiveETL.Row)">
+            <summary>
+            Indicates whether the current <see cref="T:ReactiveETL.Row" /> is equal to another <see cref="T:ReactiveETL.Row" />.
+            </summary>
+            <returns>
+            true if the current object is equal to the <paramref name="other" /> parameter; otherwise, false.
+            </returns>
+            <param name="other">An object to compare with this object.</param>
+        </member>
+        <member name="M:ReactiveETL.Row.CreateKey">
+            <summary>
+            Creates a key from the current row, suitable for use in hashtables
+            </summary>
+        </member>
+        <member name="M:ReactiveETL.Row.CreateKey(System.String[])">
+            <summary>
+            Creates a key that allow to do full or partial indexing on a row
+            </summary>
+            <param name="columns">The columns.</param>
+            <returns></returns>
+        </member>
+        <member name="M:ReactiveETL.Row.FromObject(System.Object)">
+            <summary>
+            Copy all the public properties and fields of an object to the row
+            </summary>
+            <param name="obj">The obj.</param>
+            <returns></returns>
+        </member>
+        <member name="M:ReactiveETL.Row.FromReader(System.Data.IDataReader)">
+            <summary>
+            Generate a row from the reader
+            </summary>
+            <param name="reader">The reader.</param>
+            <returns></returns>
+        </member>
+        <member name="M:ReactiveETL.Row.Add(System.Data.IDataReader)">
+            <summary>
+            Add datareader to a row
+            </summary>
+            <param name="reader"></param>
+        </member>
+        <member name="M:ReactiveETL.Row.ToObject``1">
+            <summary>
+            Create a new object of <typeparamref name="T"/> and set all
+            the matching fields/properties on it.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:ReactiveETL.Row.ToObject(System.Type)">
+            <summary>
+            Create a new object of <param name="type"/> and set all
+            the matching fields/properties on it.
+            </summary>
+        </member>
+        <member name="M:ReactiveETL.Row.Set(System.String,System.Object)">
+            <summary>
+            Set a value in the row
+            </summary>
+            <param name="key">key of the value</param>
+            <param name="val">value to put in the row</param>
+            <returns>current row</returns>
+        </member>
+    </members>
+</doc>

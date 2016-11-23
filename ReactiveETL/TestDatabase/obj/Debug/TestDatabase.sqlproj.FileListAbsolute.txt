@@ -1,0 +1,9 @@
+C:\code\csharp-vs2013\reactiveetl\ReactiveETL\TestDatabase\sql\debug\TestDatabase.dacpac
+C:\code\csharp-vs2013\reactiveetl\ReactiveETL\TestDatabase\sql\debug\TestDatabase.dll
+C:\code\csharp-vs2013\reactiveetl\ReactiveETL\TestDatabase\sql\debug\TestDatabase.pdb
+C:\code\csharp-vs2013\reactiveetl\ReactiveETL\TestDatabase\obj\Debug\Model.xml
+C:\code\csharp-vs2013\reactiveetl\ReactiveETL\TestDatabase\obj\Debug\refactor.xml
+C:\code\csharp-vs2013\reactiveetl\ReactiveETL\TestDatabase\obj\Debug\postdeploy.sql
+C:\code\csharp-vs2013\reactiveetl\ReactiveETL\TestDatabase\obj\Debug\predeploy.sql
+C:\code\csharp-vs2013\reactiveetl\ReactiveETL\TestDatabase\obj\Debug\TestDatabase.dll
+C:\code\csharp-vs2013\reactiveetl\ReactiveETL\TestDatabase\obj\Debug\TestDatabase.pdb

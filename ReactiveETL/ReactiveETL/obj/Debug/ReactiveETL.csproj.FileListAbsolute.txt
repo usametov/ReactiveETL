@@ -1,0 +1,11 @@
+C:\code\csharp-vs2013\reactiveetl\ReactiveETL\ReactiveETL\bin\Debug\ReactiveETL.XML
+C:\code\csharp-vs2013\reactiveetl\ReactiveETL\ReactiveETL\bin\Debug\ReactiveETL.dll
+C:\code\csharp-vs2013\reactiveetl\ReactiveETL\ReactiveETL\bin\Debug\ReactiveETL.pdb
+C:\code\csharp-vs2013\reactiveetl\ReactiveETL\ReactiveETL\bin\Debug\FileHelpers.dll
+C:\code\csharp-vs2013\reactiveetl\ReactiveETL\ReactiveETL\bin\Debug\log4net.dll
+C:\code\csharp-vs2013\reactiveetl\ReactiveETL\ReactiveETL\bin\Debug\System.Observable.dll
+C:\code\csharp-vs2013\reactiveetl\ReactiveETL\ReactiveETL\bin\Debug\log4net.xml
+C:\code\csharp-vs2013\reactiveetl\ReactiveETL\ReactiveETL\bin\Debug\System.Observable.xml
+C:\code\csharp-vs2013\reactiveetl\ReactiveETL\ReactiveETL\obj\Debug\ReactiveETL.csprojResolveAssemblyReference.cache
+C:\code\csharp-vs2013\reactiveetl\ReactiveETL\ReactiveETL\obj\Debug\ReactiveETL.dll
+C:\code\csharp-vs2013\reactiveetl\ReactiveETL\ReactiveETL\obj\Debug\ReactiveETL.pdb
